@@ -25,7 +25,7 @@ app.register_blueprint(admin_route, url_prefix='/admin')
 
 app.register_blueprint(meetings_route, url_prefix='/meetings')
 app.register_blueprint(login_route, url_prefix='/login')
-
+# inicializa
 if __name__ == '__main__':
     app.run(debug=True)
 
