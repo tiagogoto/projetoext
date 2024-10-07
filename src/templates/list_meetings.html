@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    <h2 class="text-center">Lista de reuniões cadastrada</h2>
+    <div class="container">
+<table class="table m-2 p-3">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Data</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for meeting in dados %}
+      <tr>
+        <th scope="row"> {{ meeting.id }}</th>
+        <td>{{ meeting.tipo }}</td>
+        <td>{{ meeting.descrição }}</td>
+        <td>{{ meeting.data }}</td>
+        <td>
+            <button type="button" class="btn btn-primary"> Ver ATA</button>
+            <button type="button" class="btn btn-danger"> Deletar ATA</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endblock %}
