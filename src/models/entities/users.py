@@ -1,22 +1,30 @@
-from sqlalchemy import Integer, Column, Text
-from db.db import Base
+
+from  ... import db
+#from flask_validator import ValidateEmail, ValidateString, ValidateCountry
+from sqlalchemy.orm import validates
 
 
-class Users(Base):
+class Users(db.Model):
     __tablename__="users"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(Text, nullable=False)
-    userpassword= Column(Text, nullable=False)
-    userid = Column(Text, nullable=False)
-    useremail = Column(Text, nullable=False)
-    access = Column(Text, nullable = False)
-    is_active = Column(bool, default=True) 
+    #__table_args__ = {'sqlite_autoincrement': True}
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.Text, nullable=False)
+    userpassword= db.Column(db.Text, nullable=False)
+    userid = db.Column(db.Text, nullable=False, unique=True)
+    useremail = db.Column(db.Text, nullable=False)
+    access = db.Column(db.Integer, db.ForeignKey("permissions.id"))
+    is_active = db.Column(db.Boolean, default=True)
+
     def __repr__(self):
-        return f'<User {self.username}>'   
+        return f'<User {self.username}>'
 
-class Permission(Base):
-    __tablename__="users"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+class Permission(db.Model):
+    __tablename__="permissions"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    descricao = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f'<ID: {self.id} - Permission {self.descricao} >'
     
 
 

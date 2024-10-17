@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    <h2 class="text-center">Formulário de Cadastro de usuário</h2>
+        <form action="{{ url_for('users.register_users') }}" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">Nome </label>
+              <input type="text" class="form-control" id="username" name="username" aria-describedby="usenameHelp">
+              <div id="usernameHelp" class="form-text"> Nome completo do usuário</div>
+            </div>
+            <div class="mb-3">
+                <label for="userpassword" class="form-label">Senha</label>
+                <input type="password" class="form-control" name="userpassword" id="userpassword" aria-label="Senha do usuário">
+            </div>
+            <div class="mb-3">
+                <label class="form-check-label" for="userid">Identificação do usuário</label>
+                <input type="text" class="form-control" id="userid" name="userid">
+            </div>
+            <div>
+                <label class="form-check-label mb-3" for="useremail">E-mail do usuário</label>
+                <input type="email" class="form-control mb-3" id="useremail" name="useremail">
+            </div>
+            
+            <select class="form-select mb-3" id="userpermission" name="userpermission" aria-label="Selecione a permisssão">
+                <option selected> Selecione a permissão:</option>
+                <option value="0">Administrador do Sistema</option>
+                <option value="1">Administrador unidade</option>
+                <option value="2">Usuário cadastrador</option>
+                <option value="3">Visualização completa</option>
+                <option value="4">Visualização de dashboard</option>
+            </select>
+            
+            <div>
+                <label class="form-check-label" for="is_active" aria-label="Usuário ativo ou não"> Usuário ativo?</label>
+                <input type="checkbox" id="is_active" value="true" name="is_active" class="form-check mb-3">
+            </div>
+        
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+</div>
+{% endblock %}

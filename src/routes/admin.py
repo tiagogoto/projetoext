@@ -8,4 +8,4 @@ def lista_configadmin():
     #user_id = get_jwt_identity()
     #user = user.query.filter_by(id=user_id).first()
     titulo = "Administração do Sistema"
-    return render_template('index.html', titulo=titulo)
+    return render_template('admin_panel.html', titulo=titulo)

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
-from database.meetings import meetings_date
-from routes.home import home_route
+from ..database.meetings import meetings_date
+from ..routes.home import home_route
+
 meetings_route = Blueprint('meetings', __name__)
 """
 Rotas meetings
