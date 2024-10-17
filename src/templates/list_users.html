@@ -25,7 +25,7 @@
         <td>{{ user.userid }}</td>
         <td>{{ user.useremail }}</td>
         <td>{{ user.access }}</td>
-        <td>{% if user.is_active == 1 %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}</td>
+        <td>{% if user.is_active == 1 %} <i class="bi bi-check-circle-fill text-success" style="font-size: 1.5rem;"></i> {% else %} <i class="bi bi-x-circle-fill text-danger" style="font-size: 1.5rem;"></i> {% endif %}</td>
         <td>
             <button type="button" class="btn btn-primary">Atualizar</button>
             <button type="button" class="btn btn-danger">Inativar</button>

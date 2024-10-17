@@ -1,49 +1,53 @@
-
 {% extends "base.html" %}
 {% block content %}
+
 <div class="container text-center align-items-center mt-5">
     <div class="row">
         <h2 class="text-center ">Login</h2>
     </div>
 
-<div class="container w-25 my-3 " >
-<form>
-    <!-- Email input -->
-    <div data-mdb-input-init class=" mb-4">
+  <div class="container w-25 my-3 " >
+    <form action="{{url_for('login.login_authentication')}}" method="post">
+      <!-- Email input -->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="notification is-danger">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+      <div data-mdb-input-init class=" mb-4">
         <label class="form-label" for="form2Example1">Usuário</label>
-      <input type="login" id="form2Example1" class="form-control form-control-md" />
-    </div>
+        <input type="login" id="username" name="username" class="form-control form-control-md" />
+      </div>
   
-    <!-- Password input -->
-    <div data-mdb-input-init class=" mb-4">
+      <!-- Password input -->
+      <div data-mdb-input-init class=" mb-4">
         <label class="form-label" for="form2Example2">Senha</label>
-      <input type="password" id="form2Example2" class="form-control form-control-md" />
-      
-    </div>
+        <input type="password" id="userpassword" name="userpassword" class="form-control form-control-md" />
+      </div>
   
-    <!-- 2 column grid layout for inline styling -->
-    <div class="row mb-4">
-      <div class="col d-flex justify-content-center">
-        <!-- Checkbox -->
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-          <label class="form-check-label" for="form2Example31"> Remember me </label>
+      <!-- 2 column grid layout for inline styling -->
+      <div class="row mb-4">
+        <div class="col d-flex justify-content-center">
+          <!-- Checkbox -->
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="rememberme" name="rememberme" checked />
+            <label class="form-check-label" for="form2Example31"> Remember me </label>
+          </div>
+        </div>
+        <div class="col">
+          <!-- Simple link -->
+          <a href="#!">Esqueceu a Senha?</a>
         </div>
       </div>
   
-      <div class="col">
-        <!-- Simple link -->
-        <a href="#!">Esqueceu a Senha?</a>
-      </div>
-    </div>
-  
-    <!-- Submit button -->
-    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
-  
-</form> 
-</div>
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+    </form> 
+  </div>
 
 </div>
-</div>
+
 
 {% endblock %}

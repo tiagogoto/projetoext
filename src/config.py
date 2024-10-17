@@ -23,3 +23,6 @@ config = {
     "staging": StagingConfig,
     "production": ProductionConfig
 }
+
+USER_LOGIN_URL = '/login'
+USER_LOGOUT_URL = '/logout'

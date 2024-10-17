@@ -2,10 +2,12 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from ..models.repository.users_repository import Users_repository
 from ..models.entities.users import Users
 from .. import db
+from flask_login import login_required, current_user
 
 users_route = Blueprint('users', __name__)
 
 @users_route.route('/')
+@login_required
 def list_users():
     users_list = Users_repository.get_list()
     return render_template('list_users.html', dados = users_list)
@@ -34,7 +36,7 @@ def register_users():
             'userpermission':userpermission,
             'is_active': active_bool
               }
-        usuario = Users_repository()
+        usuario = Users()
         usuario.insert_user(dados)
     else:
         return "Erro, no envio de dados"
@@ -50,8 +52,12 @@ def update_user(id):
 # {'username': username, 'userpassword':userpassword}
 
     
+@users_route.route('/detail', methods=['GET'])
+@login_required
+def user_detail():
+    name= current_user
+    return render_template('user_detail.html', dados=name)
     
-
 
 
 
