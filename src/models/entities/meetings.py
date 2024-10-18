@@ -4,6 +4,10 @@ from sqlalchemy.orm import validates
 class Meetings(db.Model):
     __tablename__ = "meetings"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    meet_type = db.Column(db.Integer, db.ForeignKey('meeting_type.id'), nullable=False)
+    meet_number = db.Column(db.Integer, nullable=False)
+    meet_description = db.Column(db.Text, nullable=False)
+    meet_date = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class Meeting_type(db.Model):

@@ -16,11 +16,12 @@ def login_authentication():
         password = request.form.get('userpassword')
         remember = True if request.form.get('rememberme') else False
         #print(f"Inserido, usuário: {user_name} e senha: {password}!")
-        user = Users.query.filter_by(userid=user_name).first()#Users.query.filter_by(username=user_name).first()
+        user = Users.query.filter_by(userid=user_name).first_or_404( )#Users.query.filter_by(username=user_name).first()
         
         if not user.userid or not user.check_password(password) :#and bcrypt.check_password_hash(user.userpassword, password):            
             flash('Please check your login details and try again.')
-            return redirect(url_for('login.login_form'))       
+            return redirect(url_for('login.login_form'))
+               
     else:
         return "Erro no login"
     user.authenticated = True

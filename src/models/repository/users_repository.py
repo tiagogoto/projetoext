@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from ..entities.users import Users, Permission
 import uuid
-from ... import db
+from ... import db, flask_bcrypt
 
 
 class Users_repository():
@@ -11,11 +11,12 @@ class Users_repository():
     
     def insert_user(self, dados):
         user = Users(username = dados['username'],
-                     userpassword = dados['userpassword'],
+                     _password = flask_bcrypt.generate_password_hash(dados['userpassword']).decode('utf-8'),
                      userid = dados['userid'],
                      useremail = dados['useremail'],
                      access = dados['userpermission'],
-                     is_active = dados['is_active']
+                     isactive = dados['is_active']
                      )
         db.session.add(user)
         db.session.commit()
+    

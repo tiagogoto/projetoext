@@ -61,12 +61,11 @@ class Users(db.Model):
 class Permission(db.Model):
     __tablename__="permissions"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    descricao = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f'<ID: {self.id} - Permission {self.descricao} >'
+        return f'<ID: {self.id} - Permission {self.description} >'
     
-
 
 """
 class Meeting_type(Base):
