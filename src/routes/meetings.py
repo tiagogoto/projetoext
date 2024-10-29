@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from ..database.meetings import meetings_date
+#from ..database.meetings import meetings_date
 from ..routes.home import home_route
 
 meetings_route = Blueprint('meetings', __name__)
@@ -18,6 +18,7 @@ Rotas meetings
 
 @meetings_route.route('/')
 def list_meetings():
+    meetings_date = []
     return render_template('list_meetings.html', dados= meetings_date)
 
 @meetings_route.route('/', methods=['POST'])

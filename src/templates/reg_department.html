@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="alert alert-success m-2">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+    <h2 class="text-center m-2"> Formulário de cadastro de departamento</h2>
+    <div class="container">
+        <form action="{{ url_for('register.reg_dep') }}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome do departamento</label>
+                <input type="text" class="form-control" id="name" name="dep_name" aria-describedby="countrynamehelp">
+                <div id="countrynamehelp" class="form-text">Nome do departamento</div>
+            </div>
+            <div class="mb-3">
+                <label for="acronym" class="form-label">Sigla do departamento</label>
+                <input type="text" class="form-control" id="acronym" name="dep_acronym" aria-describedby="acronymhelpe">
+                <div id = "acronymhelpe" class="form-text">Insira a Sigla do departamento</div>
+            </div>
+            <label for="paisselect" class="form-label">Selecione a instituição</label>
+            <select class="form-select" name="dep_inst" aria-label="Default">
+                {% for inst in inst_list %}
+                <option value="{{ inst.id }}">{{ inst.name }}</option>
+                {% endfor %}
+            </select>  
+            <button type="submit" class="btn btn-primary m-3">Submit</button>  
+        </form>
+    </div>
+    <h2 class="text-center m-5"> Lista de departamentos cadastradas</h2>
+    <div>
+        <table class="table m-2 p-3">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome do Departamento</th>
+                <th scope="col">Sigla</th>
+                <th scope="col">Instituição</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for dep in department_list %}
+              <tr>
+                <th scope="row"> {{ dep.id }}</th>
+                <td>{{ dep.name }}</td>
+                <td>{{ dep.acronym }}</td>
+                <td>{{ dep.inst_id }}</td>
+                <td>
+                    <form id="delup">
+                    <button  type="submit" class="btn btn-primary"> Atualizar</button>
+                    <button formtarget="delup" formaction="{{ url_for('register.del_dep', id=dep.id) }}" formmethod="post" type="submit" class="btn btn-danger"> Deletar</button>
+                    </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+
+{% endblock %}

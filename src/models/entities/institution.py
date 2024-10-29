@@ -25,7 +25,7 @@ class Institution(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     acronym = db.Column(db.Text, nullable=False)
-    country = db.column(db.Integer, db.ForeignKey("country.id"), nullable=False )
+    country = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False )
     
     def __repr__(self):
         return f'<Institution {self.name}>'

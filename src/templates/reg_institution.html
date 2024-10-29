@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="alert alert-success m-2">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+    <h2 class="text-center m-2"> Formulário de cadastro de nova Instituição</h2>
+    <div class="container">
+        <form action="{{ url_for('register.reg_inst') }}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome da Instituição</label>
+                <input type="text" class="form-control" id="name" name="inst_name" aria-describedby="countrynamehelp">
+                <div id="countrynamehelp" class="form-text">Nome do País</div>
+            </div>
+            <div class="mb-3">
+                <label for="acronym" class="form-label">Sigla da Instituição</label>
+                <input type="text" class="form-control" id="acronym" name="inst_acronym" aria-describedby="acronymhelpe">
+                <div id = "acronymhelpe" class="form-text">Insira a Sigla do Pais</div>
+            </div>
+            <label for="paisselect" class="form-label">Selecione o Pais</label>
+            <select class="form-select" name="inst_country" aria-label="Default">
+                {% for country in country_list %}
+                <option value="{{ country.id }}">{{ country.name}}</option>
+                {% endfor %}
+            </select>  
+            <button type="submit" class="btn btn-primary m-3">Submit</button>  
+        </form>
+    </div>
+    <h2 class="text-center m-5"> Lista das instituições cadastradas</h2>
+    <div>
+        <table class="table m-2 p-3">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome da instituição</th>
+                <th scope="col">Sigla</th>
+                <th scope="col">País</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for inst in institution_list %}
+              <tr>
+                <th scope="row"> {{ inst.id }}</th>
+                <td>{{ inst.name }}</td>
+                <td>{{ inst.acronym }}</td>
+                <td>{{ inst.country }}</td>
+                <td>
+                    <form id="delup">
+                    <button  type="submit" class="btn btn-primary"> Atualizar</button>
+                    <button formtarget="delup" formaction="{{ url_for('register.del_inst', id=inst.id) }}" formmethod="post" type="submit" class="btn btn-danger"> Deletar</button>
+                    </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
