@@ -8,6 +8,7 @@ class Country(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     acronym = db.Column(db.Text, nullable=False)
+    institution = db.relationship("Institution", back_populates="country", lazy='dynamic')
 
     def __repr__(self):
         return f'Country {self.name}'
@@ -25,8 +26,10 @@ class Institution(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     acronym = db.Column(db.Text, nullable=False)
-    country = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False )
-    
+    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False )
+    country =  db.relationship("Country", back_populates="institution")
+    department = db.relationship("Department", back_populates="institution", lazy='dynamic')
+
     def __repr__(self):
         return f'<Institution {self.name}>'
     
@@ -41,7 +44,8 @@ class Department(db.Model):
     name = db.Column(db.Text, nullable=False)
     acronym = db.Column(db.Text, nullable=False)
     inst_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
-
+    institution = db.relationship("Institution", back_populates="department")
+    course = db.relationship("Course", back_populates="department", lazy='dynamic')
     def __repr__(self):
         return f'< Unidade: {self.name}>'
     
@@ -56,6 +60,7 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     depart_id = db.Column(db.Integer, db.ForeignKey('department.id'))
+    department = db.relationship("Department", back_populates="course")
 
     def __repr__(self):
         return f'Course: {self.name}'

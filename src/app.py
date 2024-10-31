@@ -8,6 +8,8 @@ from . import db, create_app # from __init__ file
 app = create_app(os.getenv("CONFIG_MODE"))
 
 
+
+
 # inicializa
 if __name__ == '__main__':
     app.run(debug=True)

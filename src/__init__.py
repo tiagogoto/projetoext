@@ -22,7 +22,7 @@ def create_app(config_mode):
     app.config.from_object(config[config_mode])
     # initialized the database
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, render_as_batch=True)
     
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -34,7 +34,6 @@ def create_app(config_mode):
     app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY') #'your_jwt_secret_key'
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
     
-
  
 
 

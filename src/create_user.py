@@ -4,8 +4,9 @@ from getpass import getpass
 import sys
 
 from flask import current_app
-from bull import app, bcrypt
-from bull.models import User, db
+from app import app
+from . import flask_bcrypt
+from .models.entities.users import Users
 
 def main():
     """Main entry point for script."""

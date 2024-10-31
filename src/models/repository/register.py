@@ -28,7 +28,7 @@ class Reg_country():
 
 class Reg_inst():
     def insert_reg(inst_name,inst_acronym, inst_country ):
-        institution =  Institution(name = inst_name, acronym = inst_acronym, country=inst_country)
+        institution =  Institution(name = inst_name, acronym = inst_acronym, country_id=inst_country)
         db.session.add(institution)
         db.session.commit()
     def update_reg(id, name, acronym, country):
