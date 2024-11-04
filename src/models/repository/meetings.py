@@ -1,5 +1,5 @@
 from ... import db
-from ..entities.meetings import Meeting_attendees, Meeting_type, Meetings, Meeting_minute, Attendees, Meeting_agenda
+from ..entities.meetings import Meeting_attendees, Meeting_type, Meetings, Meeting_minute, Attendees, Meeting_agenda, Numbering
  
 
 
@@ -12,13 +12,12 @@ class Reg_meetings():
         meeting = db.session.execute(db.select(Meetings).filter_by(id = id))
         return meeting
     
-    def register_meeting(data):
+    def insert_meeting(data):
         meeting = Meetings(meeting_number = data["number"],
                            meet_description = data["description"],
                            meet_date = data["date"],
-                           meet_location = data["date"],
                            meet_location = data["location"],
-                           meet_type_id = data["type"])
+                           meet_type_id = data["type"])        
         db.session.add(meeting)
         db.session.commit()
     
@@ -37,15 +36,30 @@ class Reg_meeting_type():
         db.session.add(type)
         db.session.commit()
 
+    def delete(id):
+        type_s = db.one_or_404(db.select(Meeting_type).filter_by(id=id))
+        db.session.delete(type_s)
+        db.session.commit()
+        
+
 class Reg_attendees():
     def gets():
         atteendees_list = db.session.execute(db.select(Attendees).order_by(Attendees.name)).scalars()
         return atteendees_list
+    
     def insert(aname, adocument):
         attendee = Attendees(name = aname, document = adocument )
         db.session.add(attendee)
         db.session.commit()
-    
+
+    def delete(id):
+        attendee = db.one_or_404(db.select(Attendees).filter_by(id=id))
+        db.session.delete(attendee)
+        db.session.commit()
+    def get_one(id):
+        attendee = db.get_or_404(db.select(Attendees).filter_by(id=id))
+        return attendee
+
 class Reg_meeting_atten():
     def gets():
         meeting_atte = db.session.execute(db.select(Meeting_attendees).order_by(Meeting_attendees.meetings_id)).scalars()
@@ -86,6 +100,13 @@ class Reg_agenda():
         )
         db.session.add(agenda)
         db.session.commit()
+
+class Reg_numbering():
+    def gets_all():
+        numbering_list = db.session.execute(db.select(Numbering).order_by(id)).scalars()
+        return numbering_list
+    
+    
     
 
         

@@ -1,0 +1,76 @@
+
+{% extends "base.html" %}
+{% block content %}
+<script>
+    var num = 1; // ads 1 fields at a time
+
+    var createInputs = function () {
+        for (var i = 0; i < num; i++) {
+        $("#form_attendees").append("<input></input>");
+        }
+        };
+
+    $("#addform").click(function () {
+        createInputs();
+        //create unique ID for each input
+        $("#form_attendees")
+        .find("input")
+        .each(function (i) {
+        $(this).attr("id", "participante" + i);
+        $(this).attr("placeholder", "participante" + i);
+        });
+});
+
+var count = 0
+function addInput()
+{
+  count += 1;
+  let inputfield = '<input type="text" class=form-control>'
+  $('#form_attendees').append(inputfield)
+  
+  
+}
+
+</script>
+<div class="container-fluid mt-5 mb-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="alert alert-success m-2">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+      <div class="container">
+        <form action="{{ url_for('meetings.insert_meetings') }}" method="post">
+            <label for="typename">Tipo de Reunião</label>
+            <select class="form-select" id="typename" name="typename" > 
+                {% for ty in type_list %}
+                    <option value="{{ ty.id }}"> {{ ty.type_name }}</option>
+                {% endfor%}
+            </select>
+            <div class="mb-3">
+                <label class="form-label">Data da Reunião</label>
+                <input type="date" class="form-control" name="date">
+            </div>
+            <div>
+                <label class="form-label">Local da Reunião</label>
+                <input class="form-control" name="location">
+            </div>
+            <div>
+                <label class="form-label">Descrição da Reunião</label>
+                <input class="form-control" name="description">
+            </div>
+           
+            <button type="submit" class="btn btn-primary m-3">Enviar</button>  
+        </form>
+        <form id="participantes">
+        <div class="mb-3" id="form_attendees">
+            
+            
+        </div>
+        </form>
+        <button id="addform" onclick="createInputs" class="btn btn-primary m-3">Adicionar novo participante</button> 
+    </div>
+    
+
+{% endblock %}

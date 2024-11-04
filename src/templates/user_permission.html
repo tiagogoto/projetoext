@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="alert alert-success m-2">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+    <h2 class="text-center m-2"> Formulário de cadastro do tipo de Permissão</h2>
+    <div class="container">
+        <form action="{{ url_for('users.insert_permission') }}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Grupo de Permissão:</label>
+                <input type="text" class="form-control" id="name" name="name" aria-describedby="countrynamehelp">
+                <div id="countrynamehelp" class="form-text">Insira o nome do grupo de permissão!</div>
+            </div> 
+            <button type="submit" class="btn btn-primary m-3">Enviar</button>  
+        </form>
+    </div>
+    <h2 class="text-center m-5"> Lista de grupos de Permissão</h2>
+    <div>
+        <table class="table m-2 p-3">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Grupo de Permissão</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for tipo in data %}
+              <tr>
+                <th scope="row"> {{ tipo.id }}</th>
+                <td scope="row">{{ tipo.description}}</td>
+                <td>
+                    <form id="delcourse">
+                    <button  type="submit" class="btn btn-primary"> Atualizar</button>
+                    <button formtarget="delcourse" formaction="{{ url_for('users.del_permission', id=tipo.id) }}" formmethod="post" type="submit" class="btn btn-danger"> Deletar</button>
+                    </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+
+{% endblock %}

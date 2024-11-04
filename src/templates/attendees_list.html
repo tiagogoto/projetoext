@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="alert alert-success m-2">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+    
+    <h2 class="text-center m-5"> Lista de tipos de Reunião cadastrados</h2>
+    <div>
+        <table class="table m-2 p-3">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">tipo de reunião</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for tipo in dados %}
+              <tr>
+                <th scope="row"> {{ tipo.id }}</th>
+                <td scope="row">{{ tipo.type_name}}</td>
+                <td>
+                    <form id="delcourse">
+                    <button  type="submit" class="btn btn-primary"> Atualizar</button>
+                    <button formtarget="delcourse" formaction="{{ url_for('meetings.del_meeting_type', id=tipo.id) }}" formmethod="post" type="submit" class="btn btn-danger"> Deletar</button>
+                    </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+
+{% endblock %}

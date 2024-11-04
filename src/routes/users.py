@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from ..models.repository.users_repository import Users_repository
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from ..models.repository.users_repository import Users_repository, Reg_permission
 from ..models.entities.users import Users
 from .. import db
 from flask_login import login_required, current_user
@@ -58,7 +58,26 @@ def user_detail():
     name= current_user
     return render_template('user_detail.html', dados=name)
     
+@users_route.route('/permission', methods=['GET'])
+@login_required
+def gets_permission():
+    permission_list = Reg_permission.gets()
+    return render_template('user_permission.html', data = permission_list)
 
+@users_route.route('/permission', methods=['POST'])
+@login_required
+def insert_permission():
+    name = request.form.get('name')
+    Reg_permission.insert(name)
+    flash("Nova permissão cadastrado com sucesso")
+    return redirect(url_for('users.gets_permission'))
+
+@users_route.route('/permission_del/<id>', methods=['POST'])
+@login_required
+def del_permission(id):
+    Reg_permission.delete(id)
+    flash("Grupo de permissão deletado")
+    return redirect(url_for('users.gets_permission'))
 
 
 """

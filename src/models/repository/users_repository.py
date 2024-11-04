@@ -20,3 +20,16 @@ class Users_repository():
         db.session.add(user)
         db.session.commit()
     
+class Reg_permission():
+    def gets():
+        permi_list = db.session.execute(db.select(Permission).order_by(Permission.id)).scalars()
+        return permi_list
+    def insert(descri):
+        permission = Permission(description = descri)
+        db.session.add(permission)
+        db.session.commit()
+    
+    def delete(id):
+        permission =db.one_or_404(db.select(Permission).filter_by(id=id))
+        db.session.delete(permission)
+        db.session.commit()

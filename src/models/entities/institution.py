@@ -61,7 +61,8 @@ class Course(db.Model):
     name = db.Column(db.Text, nullable=False)
     depart_id = db.Column(db.Integer, db.ForeignKey('department.id'))
     department = db.relationship("Department", back_populates="course")
-
+    meeting = db.relationship("Meetings", back_populates="course", lazy='dynamic')
+    numbering = db.relationship("Numbering", back_populates="course", lazy='dynamic')
     def __repr__(self):
         return f'Course: {self.name}'
 
