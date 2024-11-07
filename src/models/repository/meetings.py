@@ -105,8 +105,22 @@ class Reg_numbering():
     def gets_all():
         numbering_list = db.session.execute(db.select(Numbering).order_by(id)).scalars()
         return numbering_list
+    def insert(courseid, meet_typeid):
+        num = db.session.execute(db.select(Numbering).filter_by(course_id = courseid).where(Numbering.me_type_id == meet_typeid)).scalar()
+        if num == None:
+            number = Numbering(number=1, me_type_id = meet_typeid, course_id = courseid)
+            db.session.add(number)
+            db.session.commit()
+        else:
+            num.number += 1
+            db.session.commit()
+        return num.number
+        
+
+
+
     
-    
+
     
 
         

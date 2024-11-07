@@ -97,3 +97,8 @@ class Reg_course():
         course_list = db.session.execute(db.select(Course).order_by(Course.id)).scalars()
         return course_list
     
+    def gets_join():
+        course_list = db.session.execute(db.select(Course).join(Department).order_by(Course.name)).scalars()
+        return course_list
+
+    

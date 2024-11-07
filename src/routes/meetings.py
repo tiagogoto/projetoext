@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
-from ..models.repository.meetings import Reg_meetings, Reg_meeting_type, Reg_agenda, Reg_attendees, Reg_meet_minutes, Reg_meeting_atten
+from ..models.repository.meetings import Reg_meetings, Reg_meeting_type, Reg_agenda, Reg_attendees, Reg_meet_minutes, Reg_meeting_atten, Reg_numbering
+from ..models.repository.register import Reg_course
 from ..routes.home import home_route
 from .. import db, login_manager
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -30,15 +31,31 @@ def list_meetings():
 @login_required
 def show_meeting_form():
     meet_type_list = Reg_meeting_type.gets()
-    return render_template('meeting_form.html', type_list = meet_type_list)
+    courses = Reg_course.gets_join()
+    return render_template('meeting_form.html', type_list = meet_type_list, course_list = courses)
 
 
 
 @meetings_route.route('/', methods=['POST'])
 @login_required
 def insert_meetings():
-    current_number = Reg
-    pass
+    # data from form
+    meet_type = request.form.get('typename')
+    list_of_atteendees =  request.form.getlist('field[]')
+    list_of_agenda = request.form.getlist('field2[]')
+    da = request.form.get('date')
+    descrip = request.form.get('description')
+    loc = request.form.get('location')
+    course = request.form.get('course')
+    print(type(meet_type))
+    print(type(course))
+    #  insert datas
+    number =  Reg_numbering.insert(course, meet_type)
+    #Reg_meetings.insert_meeting()
+    print(number)
+    
+
+    return jsonify(list_of_atteendees, list_of_agenda, da, descrip,loc ,course,meet_type, 200)
 
 @meetings_route.route('/<int:clientes_id>')
 def consult_meeting(meeting_id):
