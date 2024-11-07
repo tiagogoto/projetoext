@@ -6,7 +6,6 @@ from .. import db, login_manager
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 meetings_route = Blueprint('meetings', __name__)
 
-
 """
 Rotas meetings
 
@@ -17,7 +16,6 @@ Rotas meetings
     - /meeting/<id>/update (PUT)  - atualizar os dados da reunião 
 
 """
-
 # Meeting
 
 @meetings_route.route('/')
@@ -26,14 +24,12 @@ def list_meetings():
     meetings_date = Reg_meetings.gets()
     return render_template('list_meetings.html', dados= meetings_date)
 
-
 @meetings_route.route('/form')
 @login_required
 def show_meeting_form():
     meet_type_list = Reg_meeting_type.gets()
     courses = Reg_course.gets_join()
     return render_template('meeting_form.html', type_list = meet_type_list, course_list = courses)
-
 
 
 @meetings_route.route('/', methods=['POST'])
@@ -47,12 +43,11 @@ def insert_meetings():
     descrip = request.form.get('description')
     loc = request.form.get('location')
     course = request.form.get('course')
-    print(type(meet_type))
-    print(type(course))
     #  insert datas
     number =  Reg_numbering.insert(course, meet_type)
-    #Reg_meetings.insert_meeting()
-    print(number)
+    Reg_meetings.insert_meeting(meeting_number = number, meet_description = descrip, meet_date = da, meet_location=loc, meet_type_id= meet_type )
+
+    
     
 
     return jsonify(list_of_atteendees, list_of_agenda, da, descrip,loc ,course,meet_type, 200)
@@ -110,7 +105,6 @@ def insert_attendees():
     flash("Inserido com sucesso!")
     return redirect(url_for('gets_attendees'))
 
-
 @meetings_route.route('/attendees/<id>/del', methods=['POST'])
 @login_required
 def del_attendees(id):
@@ -128,7 +122,3 @@ def get_one_attendee(id):
 def show_attendee():
     lis = Reg_meeting_atten.gets()
     return render_template('attendees_list.html', data=lis)
-
-
-
-
