@@ -4,6 +4,7 @@ from ..models.repository.register import Reg_course
 from ..routes.home import home_route
 from .. import db, login_manager
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from datetime import datetime
 meetings_route = Blueprint('meetings', __name__)
 
 """
@@ -29,7 +30,8 @@ def list_meetings():
 def show_meeting_form():
     meet_type_list = Reg_meeting_type.gets()
     courses = Reg_course.gets_join()
-    return render_template('meeting_form.html', type_list = meet_type_list, course_list = courses)
+    attendees = Reg_attendees.gets()
+    return render_template('meeting_form.html', type_list = meet_type_list, course_list = courses, att = attendees)
 
 
 @meetings_route.route('/', methods=['POST'])
@@ -37,30 +39,53 @@ def show_meeting_form():
 def insert_meetings():
     # data from form
     meet_type = request.form.get('typename')
+
     list_of_atteendees =  request.form.getlist('field[]')
-    list_of_agenda = request.form.getlist('field2[]')
+    
     da = request.form.get('date')
+    #print(da)
+    da = datetime.strptime(da, '%Y-%m-%dT%H:%M')
+    #print('convertido: ', da)
     descrip = request.form.get('description')
     loc = request.form.get('location')
     course = request.form.get('course')
-    #  insert datas
+    # request form of Agenda
+    agenda_p = request.form.getlist('protocol[]')
+    agenda_t =  request.form.getlist('topic[]')
+    agenda_i = request.form.getlist('interested[]')
+    agenda_d =  request.form.getlist('description[]')
+    
+    # insert datas
+    # insert meeting data 
     number =  Reg_numbering.insert(course, meet_type)
-    Reg_meetings.insert_meeting(meeting_number = number, meet_description = descrip, meet_date = da, meet_location=loc, meet_type_id= meet_type )
-
+    data = {"number":number,
+            "description":descrip,
+            "date":da,
+            "location":loc,
+            "type":meet_type,
+            "course":course}
+    meet_id = Reg_meetings.insert_meeting(data)
     
+    # insert agenda 
+    for p, t, i, d in zip(agenda_p, agenda_t, agenda_i, agenda_d):
+        Reg_agenda.insert(t,p,i,d,meet_id)
     
+    # insert attendees
+    for attendee in list_of_atteendees:
+        Reg_meeting_atten.insert(number, attendee)
+    
+    return redirect(url_for('meetings.list_meetings'))
 
-    return jsonify(list_of_atteendees, list_of_agenda, da, descrip,loc ,course,meet_type, 200)
+@meetings_route.route('/<id>', methods=['GET'])
+def consult_meeting(id):
 
-@meetings_route.route('/<int:clientes_id>')
-def consult_meeting(meeting_id):
-    pass
+    return render_template('meeting_info.html', )
 
-@meetings_route.route('/<int:clientes_id>/edit', methods=['PUT'])
+@meetings_route.route('/<int:clientes_id>/edit', methods=['POST'])
 def edit_meeting(meeting_id):
     pass
 
-@meetings_route.route('/<int:clientes_id>/delete', methods=['DELETE'])
+@meetings_route.route('/<int:clientes_id>/delete', methods=['POST'])
 def delete_meeting(meeting_id):
     pass
 
@@ -94,23 +119,25 @@ def del_meeting_type(id):
 @login_required
 def gets_attendees():
     list_attendees = Reg_attendees.gets()
-    return render_template('list_attendees.html', data = list_attendees)
+    courses_list =  Reg_course.gets_join()
+    return render_template('list_attendees.html', data = list_attendees,cou_list = courses_list)
 
 @meetings_route.route('/ateendees', methods=['POST'])
 @login_required
 def insert_attendees():
     name = request.form.get('name')
     document = request.form.get('document')
-    Reg_attendees.insert(name, document)
+    course = request.form.get('course')
+    Reg_attendees.insert(name, document, course)
     flash("Inserido com sucesso!")
-    return redirect(url_for('gets_attendees'))
+    return redirect(url_for('meetings.gets_attendees'))
 
 @meetings_route.route('/attendees/<id>/del', methods=['POST'])
 @login_required
 def del_attendees(id):
     Reg_attendees.delete(id)
     flash("Participantes deletado com sucesso")
-    return redirect(url_for('gets_attendees'))
+    return redirect(url_for('meetings.gets_attendees'))
 
 """@meetings_route.route('/attendees/<id>', methods=['GET'])
 def get_one_attendee(id):

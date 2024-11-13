@@ -44,6 +44,8 @@ class Meeting_agenda(db.Model):
     agenda_protocol = db.Column(db.Text, nullable = True)
     agenda_interested = db.Column(db.Text, nullable = True)
     agenda_description = db.Column(db.Text, nullable= True)
+    status = db.Column(db.Boolean, nullable=True)
+    
     meeting_id = db.Column(db.Integer, db.ForeignKey('meetings.id'), nullable=False)
     meeting = db.relationship("Meetings", back_populates="meeting_agenda")
     
@@ -75,10 +77,11 @@ class Meeting_attendees(db.Model):
     __tablename__='meeting_attendees'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     meetings_id = db.Column(db.Integer, db.ForeignKey('meetings.id'))
+    status = db.Column(db.Boolean, nullable=True) # True -is presented -> false ->not presented in meeting
     meeting = db.relationship("Meetings", back_populates="attendees")
-   
+    
     #attendee_name = db.Column(db.Text, nullable=False)
-    attendee_id = db.Column(db.Text, db.ForeignKey('attendees.id'), nullable=True)
+    attendee_id = db.Column(db.Integer, db.ForeignKey('attendees.id'), nullable=True)
     attendee = db.relationship('Attendees', back_populates="meeting_attendees")
     def __repr__(self):
         return f"ID {self.id} meeting: {self.meetings_id}"
@@ -89,7 +92,9 @@ class Attendees(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     document = db.Column(db.Text, nullable=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     meeting_attendees = db.relationship("Meeting_attendees", back_populates="attendee", lazy='dynamic')
+    course = db.relationship("Course", back_populates="attendee")
     def __repr__(self) -> str:
         return f"ID: {self.id} name: {self.name}"
     

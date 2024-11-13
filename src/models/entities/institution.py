@@ -63,6 +63,7 @@ class Course(db.Model):
     department = db.relationship("Department", back_populates="course")
     meeting = db.relationship("Meetings", back_populates="course", lazy='dynamic')
     numbering = db.relationship("Numbering", back_populates="course", lazy='dynamic')
+    attendee = db.relationship("Attendees", back_populates="course", lazy='dynamic')
     def __repr__(self):
         return f'Course: {self.name}'
 

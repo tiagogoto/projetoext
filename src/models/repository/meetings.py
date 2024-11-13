@@ -13,13 +13,15 @@ class Reg_meetings():
         return meeting
     
     def insert_meeting(data):
-        meeting = Meetings(meeting_number = data["number"],
+        meeting = Meetings(meet_number = data["number"],
                            meet_description = data["description"],
                            meet_date = data["date"],
                            meet_location = data["location"],
-                           meet_type_id = data["type"])        
+                           meet_type_id = data["type"],
+                           course_id = data["course"])        
         db.session.add(meeting)
         db.session.commit()
+        return meeting.id
     
     def gets_by_course(courseid):
         meetings_list = db.session.execute(db.select(Meetings).order_by(Meetings.meet_date).filter_by(course_id = courseid)).scalars()
@@ -47,8 +49,8 @@ class Reg_attendees():
         atteendees_list = db.session.execute(db.select(Attendees).order_by(Attendees.name)).scalars()
         return atteendees_list
     
-    def insert(aname, adocument):
-        attendee = Attendees(name = aname, document = adocument )
+    def insert(aname, adocument, course):
+        attendee = Attendees(name = aname, document = adocument, course_id = course )
         db.session.add(attendee)
         db.session.commit()
 
@@ -89,14 +91,13 @@ class Reg_agenda():
         agenda_list = db.session.execute(db.select(Meeting_agenda).order_by(Meeting_agenda.id)).scalars()
         return agenda_list
     
-    def insert(topic, protocol, interested, description, meid,mi_id ):
+    def insert(topic, protocol, interested, description, meid ):
         agenda = Meeting_agenda(
             agenda_topic = topic,
             agenda_protocol = protocol,
             agenda_interested = interested,
             agenda_description = description,
             meeting_id = meid,
-            minute_id =mi_id
         )
         db.session.add(agenda)
         db.session.commit()
@@ -108,12 +109,14 @@ class Reg_numbering():
     def insert(courseid, meet_typeid):
         num = db.session.execute(db.select(Numbering).filter_by(course_id = courseid).where(Numbering.me_type_id == meet_typeid)).scalar()
         if num == None:
-            number = Numbering(number=1, me_type_id = meet_typeid, course_id = courseid)
+            numm = Numbering(number=1, me_type_id = meet_typeid, course_id = courseid)
             db.session.add(number)
             db.session.commit()
+            return numm.number
         else:
             num.number += 1
             db.session.commit()
+
         return num.number
         
 

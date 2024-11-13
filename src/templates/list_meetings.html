@@ -10,7 +10,7 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Tipo</th>
-        <th scope="col">Descrição</th>
+        <th scope="col">Numeração</th>
         <th scope="col">Data</th>
         <th scope="col">Ações</th>
       </tr>
@@ -19,12 +19,13 @@
         {% for meeting in dados %}
       <tr>
         <th scope="row"> {{ meeting.id }}</th>
-        <td>{{ meeting.tipo }}</td>
-        <td>{{ meeting.descrição }}</td>
-        <td>{{ meeting.data }}</td>
+        <td>{{ meeting.meet_type }}</td>
+        <td>{{ meeting.meet_number }}</td>
+        <td>{{ meeting.meet_date }}</td>
         <td>
-            <button type="button" class="btn btn-primary"> Ver ATA</button>
-            <button type="button" class="btn btn-danger"> Deletar ATA</button>
+            <button class="btn btn-primary m-2"> Gerar Convocação </button>
+            <button type="button" class="btn btn-primary m-2"> Gerar ATA</button>
+            <button type="button" class="btn btn-danger m-2"> Deletar Reunião</button>
         </td>
       </tr>
       {% endfor %}

@@ -26,7 +26,7 @@
             </select>
             <div class="mb-3">
                 <label class="form-label">Data da Reunião</label>
-                <input type="date" class="form-control" name="date">
+                <input type="datetime-local" class="form-control" name="date">
             </div>
             <div>
                 <label class="form-label">Local da Reunião</label>
@@ -59,17 +59,50 @@
         
         btn.onclick = function (){
             let inputname = "attendee" + count;
+            let inputfield = '<div class="mb-3"> \
+                <label class="form-label mb-3">' + 'Participante ' +count +":" + '</label>\
+                <select class="form-select" name="field[]"> \
+                    {% for attendee in att %}\
+                    <option value={attendee.id}> {{attendee.name}} / {{attendee.course}} </option>\
+                {% endfor %}\
+                    </select> \
+            </div>'
             let inpufield = '<div class="mb-3"> <label class="form-label mb-3" >'+ 'Participante ' +count +":" +'</label><input class="form-control" type="text" name="field[]"></input> </div>'
-            $('#form_attendees').append(inpufield);
+            $('#form_attendees').append(inputfield);
             count += 1;
             //let espaco = document.getElementById('form_attendees')
             //espaco.append('<input type="text"></input>')
         }
 
         btn2.onclick =  function(){
-            let inputagenda = "Pauta " + count_agenda;
-            let input_ag_fi = '<div class="mb-3"> <label class="form-label mb-3" >'+ 'Pauta ' +count_agenda +":" +'</label><input class="form-control" type="text" name="field2[]"></input> </div>';
-            $('#form_agenda').append(input_ag_fi);
+           // let inputagenda = "Pauta " + count_agenda;
+            
+            let field =' \<div class="border border-light"> <h4> '+ " Pauta "+ count_agenda +'</h4> \
+            <div class="form-row"> \
+                <div class="form-group col-md-6"> \
+                <label>Protocolo: </label> \
+                <input class="form-control" name="protocol[]"></input> \
+                </div> \
+                <div class="form-group col-md-6"> \
+                <label>Assunto: </label>           \
+                <input class="form-control" name="topic[]"></input> \
+                </div> \
+                </div> \
+                <div class="form-row"> \
+                <div class="form-group col-md-6"> \
+                <label> interessado: </label> \
+                <input class="form-control" name="interested[]"></input> \
+                </div> \
+                <div class="form-group col-md-6"> \
+                <label> Parecerista e observações: </label> \
+                <input class="form-control" name="description[]"></input> \
+                </div> \
+                </div> \
+                </div>'
+            
+            //let input_ag_fi = '<div class="mb-3"> <label class="form-label mb-3" >'+ 'Pauta ' +count_agenda +":" +'</label><input class="form-control" type="text" name="field2[]"></input> </div>';
+            
+            $('#form_agenda').append(field);
             count_agenda +=1;
         }
         

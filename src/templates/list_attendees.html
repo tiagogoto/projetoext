@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="alert alert-success m-2">
+              {{ messages[0] }}. 
+          </div>
+      {% endif %}
+      {% endwith %}
+    <h2 class="text-center m-2"> Formulário de cadastro de participantes</h2>
+    <div class="container">
+        <form action="{{ url_for('meetings.insert_attendees') }}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome do participante</label>
+                <input type="text" class="form-control" id="name" name="name" > 
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Matricula do participante:</label>
+                <input type="text" class="form-control" id="name" name="document" > 
+            </div>
+            <label for="courseselect" class="form-label">Selecione o curso do participante</label>
+            <select class="form-select" id="courseselect" name="course" aria-label="Default">
+                {% for cou in cou_list %}
+                <option value="{{ cou.id }}">{{ cou.name }} {{ cou.department}}</option>
+                {% endfor %}
+            </select> 
+            <button type="submit" class="btn btn-primary m-3">Submit</button>  
+        </form>
+    </div>
+    <h2 class="text-center m-5"> Lista de Participantes cadastrados</h2>
+    <div>
+        <table class="table m-2 p-3">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome do Participante</th>
+                <th scope="col">curso</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for attendee in data %}
+              <tr>
+                <th scope="row"> {{ attendee.id }}</th>
+                <td>{{ attendee.name }}</td>
+                <td>{{ attendee.course_id }}</td>
+                <td>
+                    <form id="delcourse">
+                    <button  type="submit" class="btn btn-primary"> Atualizar</button>
+                    <button formtarget="delcourse" formaction="{{ url_for('meetings.del_attendees', id=attendee.id) }}" formmethod="post" type="submit" class="btn btn-danger"> Deletar</button>
+                    </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
