@@ -35,7 +35,7 @@ class Meeting_type(db.Model):
     meeting = db.relationship("Meetings", back_populates="meet_type", lazy='dynamic')
     numbering = db.relationship("Numbering", back_populates="meet_type", lazy="dynamic")
     def __repr__(self):
-        return f"Id {id} nome do tipo: {self.type_name}"
+        return f"{self.type_name}"
 
 class Meeting_agenda(db.Model):
     __tablename__="meeting_agenda"
@@ -53,7 +53,7 @@ class Meeting_agenda(db.Model):
     minute = db.relationship("Meeting_minute", back_populates="meeting_agenda")
 
     def __repr__(self):
-        return f"Id {id} nome da Pauta: {type_name}"
+        return f"{self.type_name}"
     
 class Meeting_minute(db.Model):
     __tablename__='meeting_minute'
@@ -96,7 +96,7 @@ class Attendees(db.Model):
     meeting_attendees = db.relationship("Meeting_attendees", back_populates="attendee", lazy='dynamic')
     course = db.relationship("Course", back_populates="attendee")
     def __repr__(self) -> str:
-        return f"ID: {self.id} name: {self.name}"
+        return f"{self.name}"
     
 class Numbering(db.Model):
     __tablename__= 'numering'

@@ -65,7 +65,7 @@ class Course(db.Model):
     numbering = db.relationship("Numbering", back_populates="course", lazy='dynamic')
     attendee = db.relationship("Attendees", back_populates="course", lazy='dynamic')
     def __repr__(self):
-        return f'Course: {self.name}'
+        return f'{self.name}'
 
     def register(self, data):
         self.name = data['name']

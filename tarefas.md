@@ -8,10 +8,10 @@
     * [ X ] criar hash da senha com salt? --> utilizado o bcrypt
 
 * [ ] Implementar Login com jwt -->deu errado utilizado flask-login
-    * [ ] controle de acesso de acordo com perfil de acesso
-    * [ ] controle de unidade
+    * [   ] controle de acesso de acordo com perfil de acesso
+    * [   ] controle de unidade
     * [ X ] página de login
-    * [ ] 
+    * [   ] 
 
 * [ ] Módulo Painel administrativo
     * [ ] Lista configurações

@@ -2,6 +2,54 @@
 {% block content %}
 
 
+<div class="conatiner min-vh-100 my-5">
+    <div class="container ">
+        <div class="container text-center">
+            <h3 class="mb-3"> Reunião {{ meeting.meet_type}}, N° {{meeting.meet_number}} de {{meeting.meet_date.year}} do Curso de {{meeting.course}}</h2>
+        </div>
+        <div class="row my-5 ">
+            <div class="col-md-2 text-left">
+                <h4> Data: </h4> 
+            </div>
+            <div class="col-md-2 text-left"> {{meeting.meet_date.strftime("%d de %b de %Y")}} </div>
+            <div class="col-md-2 text-left"><h4> Local: </h4></div>
+            <div class="col-md-2 text-left"> {{meeting.meet_location}} </div>
+        
+        </div>
+        <div class="conatiner text-left">
+            <h4> Participantes: </h4>
+        </div>
+        <div class="container my-3 ">
+            {% for attendee in attendee_list %}
+            <div class="col mx-2">
+                {{loop.index0 + 1}} : {{ attendee.attendee }}, {% if attendee.status %} Presente {% else%} Não presente {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="conatiner text-left">
+            <h4 class="my-3"> Pauta: </h4>
+            <ol class="list-group list-group-numbering">
+                {% for ag in agenda %}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"> {{ag.agenda_topic}} </div>
+                        Protocolo: {{ag.agenda_protocol}} <br>
+                        Interessado: {{ag.agenda_interested}} <br>
+                        Observação: {{ag.agenda_description}} <br>
+                        Parecer: {% if ag.status == None %} Não apreciado {% elif ag.status %} Aprovado {% else %} Não aprovado {%endif%}
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="container my-5">
+            <h4 class="text-left"> Observações e Descrições </h4>
+            <p class="text-left">{{meeting.meet_description}} </p>
+        </div>
+
+    </div>
+</div>
+
 
 
 

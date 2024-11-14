@@ -77,17 +77,34 @@ def insert_meetings():
     return redirect(url_for('meetings.list_meetings'))
 
 @meetings_route.route('/<id>', methods=['GET'])
+@login_required
 def consult_meeting(id):
+    meeting = Reg_meetings.get_meeting(id)
+    if not meeting:
+        return redirect(url_for('meetings.erro_page'))
+    list_at = Reg_meeting_atten.get_list(id)
+    list_agenda = Reg_agenda.get_meet_agenda(id)
+    return render_template('meeting_info.html', meeting=meeting , attendee_list = list_at, agenda=list_agenda)
 
-    return render_template('meeting_info.html', )
+@meetings_route.route('/notice/<id>', methods=['GET'])
+@login_required
+def generate_notice(id):
+    meeting = Reg_meetings.get_meeting(id)
+    if not meeting:
+        return redirect(url_for('meetings.erro_page'))
+    list_at = Reg_meeting_atten.get_list(id)
+    list_agenda = Reg_agenda.get_meet_agenda(id)
+    pass
 
 @meetings_route.route('/<int:clientes_id>/edit', methods=['POST'])
 def edit_meeting(meeting_id):
     pass
-
 @meetings_route.route('/<int:clientes_id>/delete', methods=['POST'])
 def delete_meeting(meeting_id):
     pass
+@meetings_route.route('/erro', methods=['GET'])
+def erro_page():
+    return render_template("meeting_erro.html")
 
 ## meeting type
 

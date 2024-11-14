@@ -8,8 +8,8 @@ class Reg_meetings():
         meetings_list = db.session.execute(db.select(Meetings).order_by(Meetings.id)).scalars()
         return meetings_list
     
-    def gets_meeting(id):
-        meeting = db.session.execute(db.select(Meetings).filter_by(id = id))
+    def get_meeting(id):
+        meeting = db.session.execute(db.select(Meetings).filter_by(id = id)).scalar()
         return meeting
     
     def insert_meeting(data):
@@ -67,6 +67,10 @@ class Reg_meeting_atten():
         meeting_atte = db.session.execute(db.select(Meeting_attendees).order_by(Meeting_attendees.meetings_id)).scalars()
         return meeting_atte
     
+    def get_list(mee_id):
+        list_attendees = db.session.execute(db.select(Meeting_attendees).filter_by(meetings_id = mee_id)).scalars()
+        return list_attendees
+    
     def insert(id, att_id):
         attendee = Meeting_attendees(meetings_id = id, attendee_id = att_id)
         db.session.add(attendee)
@@ -90,7 +94,9 @@ class Reg_agenda():
     def gets():
         agenda_list = db.session.execute(db.select(Meeting_agenda).order_by(Meeting_agenda.id)).scalars()
         return agenda_list
-    
+    def get_meet_agenda(id):
+        list_agenda = db.session.execute(db.select(Meeting_agenda).filter_by(meeting_id=id)).scalars()
+        return list_agenda
     def insert(topic, protocol, interested, description, meid ):
         agenda = Meeting_agenda(
             agenda_topic = topic,
@@ -104,13 +110,13 @@ class Reg_agenda():
 
 class Reg_numbering():
     def gets_all():
-        numbering_list = db.session.execute(db.select(Numbering).order_by(id)).scalars()
+        numbering_list = db.session.execute(db.select(Numbering).order_by(Numbering.id)).scalars()
         return numbering_list
     def insert(courseid, meet_typeid):
         num = db.session.execute(db.select(Numbering).filter_by(course_id = courseid).where(Numbering.me_type_id == meet_typeid)).scalar()
         if num == None:
             numm = Numbering(number=1, me_type_id = meet_typeid, course_id = courseid)
-            db.session.add(number)
+            db.session.add(numm)
             db.session.commit()
             return numm.number
         else:
