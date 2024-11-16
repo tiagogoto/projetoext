@@ -44,8 +44,8 @@ class Meeting_agenda(db.Model):
     agenda_protocol = db.Column(db.Text, nullable = True)
     agenda_interested = db.Column(db.Text, nullable = True)
     agenda_description = db.Column(db.Text, nullable= True)
-    status = db.Column(db.Boolean, nullable=True)
-    
+    status = db.Column(db.Text, nullable=True)
+    notes = db.Column(db.Text, nullable=True)
     meeting_id = db.Column(db.Integer, db.ForeignKey('meetings.id'), nullable=False)
     meeting = db.relationship("Meetings", back_populates="meeting_agenda")
     
@@ -77,7 +77,7 @@ class Meeting_attendees(db.Model):
     __tablename__='meeting_attendees'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     meetings_id = db.Column(db.Integer, db.ForeignKey('meetings.id'))
-    status = db.Column(db.Boolean, nullable=True) # True -is presented -> false ->not presented in meeting
+    status = db.Column(db.Integer, nullable=True) # True -is presented -> false ->not presented in meeting
     meeting = db.relationship("Meetings", back_populates="attendees")
     
     #attendee_name = db.Column(db.Text, nullable=False)

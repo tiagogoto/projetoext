@@ -41,3 +41,11 @@
     * [ ] cadastro de empresa
     * [ ] cadastro alunos
 * [ ] 
+
+
+anotações:
+
+"1" Aprovado
+"2" Não aprovado
+"3" Pedido de Vista
+"4" Retirado de pauta

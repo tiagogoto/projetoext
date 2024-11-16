@@ -9,6 +9,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Curso</th>
         <th scope="col">Tipo</th>
         <th scope="col">Numeração</th>
         <th scope="col">Data</th>
@@ -18,12 +19,15 @@
     <tbody>
         {% for meeting in dados %}
       <tr>
-        <th scope="row"> {{ meeting.id }}</th>
-        <td>{{ meeting.meet_type }}</td>
-        <td>{{ meeting.meet_number }}</td>
-        <td>{{ meeting.meet_date }}</td>
+        <th class="text-center"> {{ meeting.id }}</th>
+        <th class="text-center">{{meeting.course}}</th>
+        <td class="text-center">{{ meeting.meet_type }}</td>
+        <td class="text-center">{{ meeting.meet_number }}</td>
+        <td class="text-center">{{ meeting.meet_date.strftime("%d de %b de %Y") }}</td>
         <td>
-            <button class="btn btn-primary m-2"> Gerar Convocação </button>
+          <form id="gnotice">
+            <button formtarget="gnotice" type="submit" class="btn btn-primary m-2" formaction="{{url_for('meetings.generate_notice', id=meeting.id)}}" formmethod="post"> Gerar Convocação </button>
+          </form>
             <button type="button" class="btn btn-primary m-2"> Gerar ATA</button>
             <button type="button" class="btn btn-danger m-2"> Deletar Reunião</button>
         </td>

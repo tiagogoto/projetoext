@@ -8,12 +8,12 @@
             <h3 class="mb-3"> Reunião {{ meeting.meet_type}}, N° {{meeting.meet_number}} de {{meeting.meet_date.year}} do Curso de {{meeting.course}}</h2>
         </div>
         <div class="row my-5 ">
-            <div class="col-md-2 text-left">
+            <div class="col-md-2 text-left ">
                 <h4> Data: </h4> 
             </div>
-            <div class="col-md-2 text-left"> {{meeting.meet_date.strftime("%d de %b de %Y")}} </div>
-            <div class="col-md-2 text-left"><h4> Local: </h4></div>
-            <div class="col-md-2 text-left"> {{meeting.meet_location}} </div>
+            <div class="col-md-2 text-left "> {{meeting.meet_date.strftime("%d de %b de %Y")}} </div>
+            <div class="col-md-2 text-left "><h4> Local: </h4></div>
+            <div class="col-md-2 text-left "> {{meeting.meet_location}} </div>
         
         </div>
         <div class="conatiner text-left">
@@ -46,12 +46,18 @@
             <h4 class="text-left"> Observações e Descrições </h4>
             <p class="text-left">{{meeting.meet_description}} </p>
         </div>
+        <div class="conatiner text-center">
+            <ul class="list-inline">
+                <li class="list-inline-item"> 
+                    <form action="{{url_for('meetings.generate_notice', id=meeting.id)}}" id="notice" method="post"><button type="submit" formtarget="notice" formmethod="post" class="btn btn-success" formaction="{{url_for('meetings.generate_notice', id=meeting.id)}}"> Gerar Convocação </button></form>
+                </li>
+                <li class="list-inline-item">
+                    <form><button type="submit" formmethod="post" class="btn btn-success">Gerar ATA da Reunião</button></form>
+                </li>
+        </ul>
+        </div>
 
     </div>
 </div>
-
-
-
-
 
 {% endblock %}
