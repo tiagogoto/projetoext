@@ -14,21 +14,21 @@
         <div class="container text-center">
             <h3 class="mb-3"> Ata da Reunião {{ meeting.meet_type}}, N° {{meeting.meet_number}} de {{meeting.meet_date.year}} do Curso de {{meeting.course}}</h2>
         </div>
-        <form class="my-5">
+        <form class="my-5" action="{{ url_for('meetings.gen_minute_save', id=meeting.id) }}" method="post" id="main_form">
             <h4 class="mb-3"> Lista de Presença </h4>
             <ol>    
                 {% for att in attendee %}
-                <li> <p class="fw-medium">{{ att.attendee }} :<p>
+                <li> <p class="fw-medium">{{ att.attendee }} :</p>
                     <input type="hidden" name="attendee_id[]" value="{{att.id}}">
                     <select class="form-select" name="presenca[]">
                         <option value="1"> Presente</option>
-                        <option value="2" selected > Ausente </option>
+                        <option value="2"  >Ausente </option>
                         <option value="3"> Ausente com justificativa</option>
                     </select>
                 </li>
                 {% endfor%}
             </ol>
-        <h4 class="mb-3"> Pauta: </h4>
+            <h4 class="mb-3"> Pauta: </h4>
         <div class="container text-left p-6 mx-4">     
             <ul class="list-unstyled">
             {% for agenda in agenda_list %}
@@ -36,7 +36,7 @@
                 <h5>{{agenda.agenda_topic}}</h5>
                 <p> Protocolo: {{agenda.agenda_protocol}} </p>
                 <p> Interessado: {{agenda.agenda_interested}} </p>
-                <input type="hidden" name="agenda_id[]" value="agenda.id">
+                <input type="hidden" name="agenda_id[]" value="{{ agenda.id }}">
                 <label class="form-label">Observação </label>
                 <input type="text" class="form-control" name="ag_descrip[]" value="{{agenda.agenda_description}}">
                 <label class="form-label"> Deliberação do parecer</label>
@@ -50,21 +50,21 @@
                 <input class="form-control" name="notes[]" type="text">
              </li>
             {% endfor%}
-        </ul>
+            </ul>
             <label class="form-label"> Descrição da reunião</label>
             <input class="form-control" name="description" value="{{meeting.meet_description}}">
         </div>
-        <button class="btn btn-primary my-3" type="submit" formmethod="post" formaction="{{url_for('meetings.gen_minute_save', id=id)}}"> Salvar </button>
+        <button class="btn btn-primary my-3" formtarget="main_form" type="submit"> Salvar </button>
         </form>
         <ul class="list-inline text-center">
             <li class="list-inline-item">
-            <form id="btn-send" action="{{url_for('meetings.gen_minute_pdf', id=meeting.id)}}" method="post">
+               <form id="btn-send" action="{{url_for('meetings.gen_minute_pdf', id=meeting.id)}}" method="post">
                 <button class="btn btn-success m-3"  id="atapdf" formtarget="btn-send"> Gerar ATA em PDF </button>
             </form>
             </li>
             <li class="list-inline-item">
                 <a class="btn btn-success m-3" href="javascript:void(0)" id="atahtml"> Gerar ATA em HTML </a>        
-            </li>
+            </li> 
         </ul>
     </div>
 </div>

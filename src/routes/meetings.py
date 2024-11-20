@@ -6,6 +6,8 @@ from .. import db, login_manager
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from datetime import datetime
 import pdfkit
+import locale
+locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
 
 
 meetings_route = Blueprint('meetings', __name__)
@@ -121,36 +123,70 @@ def gen_minute(id):
     return redirect(url_for('meetings.consult_meeting', id=id))
 
 
-
-@meetings_route.route('/minute/<id>', methods=['POST'])
+@meetings_route.route('/save_minute/<id>', methods=['POST'])
 @login_required
 def gen_minute_save(id):
-    
+    print("Botão acionado!!")
     attendance_id = request.form.getlist('attendee_id[]')
     attendance= request.form.getlist('presenca[]')
     ag_descri = request.form.getlist('ag_descrip[]')
     ag_id = request.form.getlist('agenda_id[]')
+    print(attendance_id)
+    print(attendance)
     aproved_status = request.form.getlist('delib[]')
     notes = request.form.getlist('delib[]')
     meeting_descrip = request.form.get('description')
     # update attendance status
-    for id, attendance_status in zip(attendance_id, attendance):
-        Reg_meeting_atten.update_attendance(id, attendance_status)
+    for att_id, attendance_status in zip(attendance_id, attendance):
+        Reg_meeting_atten.update_attendance(att_id, attendance_status)
     
     # update agenda status
-    for id, descrip, status, note in zip(ag_id, ag_descri, aproved_status, notes):
-        Reg_agenda.update(id, descrip, status, note )
+    for agid, descrip, status, note in zip(ag_id, ag_descri, aproved_status, notes):
+        Reg_agenda.update(agid, descrip, status, note )
     
     Reg_meetings.update_description(id, meeting_descrip)
 
     flash("Salvo com sucesso!!")
-    return redirect(url_for('meetings.gen_minute'))
+    return redirect(url_for('meetings.gen_minute', id=id))
 
-@meetings_route.route('/minute/<id>/pdf', methods=['POST'])
+@meetings_route.route('/minute/pdf/<id>', methods=['POST'])
 @login_required
-def gen_minute_pdf():
-    pass
+def gen_minute_pdf(id):
+    if request.method == "POST":
+        meeting = Reg_meetings.get_meeting(id)
+        if not meeting:
+            return redirect(url_for('meetings.erro_page'))
+        list_at = Reg_meeting_atten.get_list(id)
+        list_agenda = Reg_agenda.get_meet_agenda(id)
+        justified_absence = 0
+        for atendee  in list_at:
+            if atendee.status == 3:
+                justified_absence +=1
+        # generate pdf from a template
+        rendered = render_template("meeting_minute.html", meeting=meeting , lista_p = list_at, agenda=list_agenda, justified=justified_absence)
+        pdf = pdfkit.from_string(rendered, False)
+        response = make_response(pdf)
+        response.headers['content-Type'] = '/app/pdf'
+        response.headers['content-Disposition'] = 'inline; filename='+id+'.pdf'
+        return response
+    return redirect(url_for('meetings.consult_meeting', id=id))
 
+@meetings_route.route('/teste/<id>', methods=['GET'])
+def teste(id):
+    meeting = Reg_meetings.get_meeting(id)
+    if not meeting:
+        return redirect(url_for('meetings.erro_page'))
+    lista = Reg_meeting_atten.get_list(id)
+    print(type(lista))
+    
+    list_agenda = Reg_agenda.get_meet_agenda(id)
+    print(type(list_agenda))
+    justified_absence = 0
+    for attendee in lista:
+        print("estatus: ", attendee.status, "Nome:", attendee.attendee.name)
+        if attendee.status == 3:
+            justified_absence += 1
+    return render_template('meeting_minute.html', attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence)
 
 @meetings_route.route('/<int:clientes_id>/edit', methods=['POST'])
 def edit_meeting(meeting_id):

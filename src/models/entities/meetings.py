@@ -77,7 +77,7 @@ class Meeting_attendees(db.Model):
     __tablename__='meeting_attendees'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     meetings_id = db.Column(db.Integer, db.ForeignKey('meetings.id'))
-    status = db.Column(db.Integer, nullable=True) # True -is presented -> false ->not presented in meeting
+    status = db.Column(db.Integer, nullable=True) # 0 - presence ok, 2, presence not ok, 3 presence justified
     meeting = db.relationship("Meetings", back_populates="attendees")
     
     #attendee_name = db.Column(db.Text, nullable=False)

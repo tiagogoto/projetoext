@@ -20,6 +20,7 @@ login_manager = LoginManager()
 def create_app(config_mode):
     app = Flask(__name__)
     app.config.from_object(config[config_mode])
+    
     # initialized the database
     db.init_app(app)
     migrate.init_app(app, db, render_as_batch=True)

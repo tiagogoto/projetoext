@@ -27,8 +27,8 @@ class Reg_meetings():
         meetings_list = db.session.execute(db.select(Meetings).order_by(Meetings.meet_date).filter_by(course_id = courseid)).scalars()
         return meetings_list
     
-    def update_description(id, descrip):
-        meeting = db.session.execute(db.select(Meetings).filter_by(id=id)).first()
+    def update_description(meet_id, descrip):
+        meeting = db.session.execute(db.select(Meetings).filter_by(id=meet_id)).scalar()
         meeting.meet_description = descrip
         db.session.commit()
     
@@ -75,7 +75,7 @@ class Reg_meeting_atten():
         meeting_atte = db.session.execute(db.select(Meeting_attendees).order_by(Meeting_attendees.meetings_id)).scalars()
         return meeting_atte
     
-    def get_list(mee_id):
+    def get_list(mee_id) -> object:
         list_attendees = db.session.execute(db.select(Meeting_attendees).filter_by(meetings_id = mee_id)).scalars()
         return list_attendees
     
@@ -85,7 +85,7 @@ class Reg_meeting_atten():
         db.session.commit()
     def update_attendance(id, stat):
         attendee = db.session.execute(db.select(Meeting_attendees).filter_by(id=id)).scalar()
-        attendee.stattus = stat
+        attendee.status = stat
         db.session.commit()
     
 class Reg_meet_minutes():
@@ -119,11 +119,11 @@ class Reg_agenda():
         )
         db.session.add(agenda)
         db.session.commit()
-    def update(id, descrip, stat, notes):
-        agenda = db.session.execute(db.select(Meeting_agenda).filter_by(id=id)).first()
-        agenda.agenda_description = descrip
+    def update(ag_id, descrip, stat, notes):
+        agenda = db.session.execute(db.select(Meeting_agenda).filter_by(id=ag_id)).scalar()
         agenda.status = stat
         agenda.notes = notes
+        agenda.agenda_description = descrip
         db.session.commit()
 
 class Reg_numbering():
