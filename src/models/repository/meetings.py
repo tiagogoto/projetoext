@@ -75,12 +75,12 @@ class Reg_meeting_atten():
         meeting_atte = db.session.execute(db.select(Meeting_attendees).order_by(Meeting_attendees.meetings_id)).scalars()
         return meeting_atte
     
-    def get_list(mee_id) -> object:
-        list_attendees = db.session.execute(db.select(Meeting_attendees).filter_by(meetings_id = mee_id)).scalars()
+    def get_list(mee_id):
+        list_attendees = db.session.execute(db.select(Meeting_attendees).filter_by(meetings_id=mee_id)).scalars().all()
         return list_attendees
     
     def insert(id, att_id):
-        attendee = Meeting_attendees(meetings_id = id, attendee_id = att_id)
+        attendee = Meeting_attendees(meetings_id=id, attendee_id = att_id)
         db.session.add(attendee)
         db.session.commit()
     def update_attendance(id, stat):

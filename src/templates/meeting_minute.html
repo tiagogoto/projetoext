@@ -11,42 +11,76 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Minutada reunião em pdf</title>
+      <style>
+        .line-numbered {
+            counter-reset: line; /* Reseta o contador */
+            padding-left: 2em;  /* Espaçamento para as numerações */
+            line-height: 1.6;   /* Espaçamento entre as linhas */
+            font-family: monospace; /* Fonte para alinhamento uniforme */
+        }
+
+        .line-numbered p {
+            position: relative;     /* Necessário para o posicionamento */
+            counter-increment: line; /* Incrementa o contador por linha */
+        }
+
+        .line-numbered p::before {
+            content: counter(line); /* Insere o número da linha */
+            position: absolute;     /* Posiciona o número */
+            left: 0;                /* Alinhado à esquerda */
+            width: 1.5em;           /* Largura fixa para os números */
+            text-align: right;      /* Alinha os números à direita */
+            color: gray;            /* Cor dos números */
+        }
+    </style>
 </head>
 <body>
 <header>
     |<div class="container text-center">
         <img src="https://www.gov.br/planalto/pt-br/conheca-a-presidencia/acervo/simbolos-nacionais/brasao-da-republica/brasaooficialcolorido.png/@@images/image" alt="Brasão da república" style="width: 280px; height: 160px;">
-        <p class="fs-4 fw-bold text-uppercase"> {{ institution }}</p>
+        <p class="fs-4 fw-bold text-uppercase"> Universidade Federal de Rondonópolis</p>
         <p class="fs-4 fw-bold text-uppercase"> {{meeting.course}}</p>
     </div>
 </header>
 <div class="conatiner-lg m-6 p-6">
     <div class="container ">
-        <div class="container text-center">
+        <div class="container text-center" style="margin-top: 3rem;">
             <h3 class="my-3 text-uppercase"> Ata da {{meeting.meet_number}}ª {{ meeting.meet_type}}, do {{meeting.course}} de {{meeting.meet_date.year}}</h3>
         </div>
-        <p style="display: inline;">No dia {{meeting.meet_date.day}} de {{meeting.meet_date.strftime('%B')}} de {{meeting.meet_date.year}}, às {{meeting.meet_date.hour}}h{{meeting.meet_date.minute}} ocorreu a {{meeting.meet_number}}ª reunião no 
-        {{meeting.meet_location}} com a lista de presença:</p>
-    <ol style="display: inline;">
-        {% for attendee in attendees %}
-
-                <li style="display: inline;">{{attendee.attendee.name}} </li>
-
+    <div style="text-align: justify-all; font-size: x-large">
+        No dia {{meeting.meet_date.day}} de {{meeting.meet_date.strftime('%B')}} de {{meeting.meet_date.year}}, às {{meeting.meet_date.hour}}h{{meeting.meet_date.minute}} ocorreu a {{meeting.meet_number}} reunião no
+        {{ meeting.meet_location }} com a presença de
+    <ol style="display: inline; list-style: none;">
+        {% for a in attendees %}
+            {% if a.status == 1 %}
+                <li style="display: inline;text-transform: capitalize;">{{a.attendee.name}},  </li>
+            {% endif %}
         {% endfor %}
     </ol>
-        sob a presidência do primeiro.
+        sob a presidência do primeiro.  {% if justified > 0 %}
         Esteve ausente com justificativa:
-        .A reunião teve início com a aprovação da pauta e a inclusão dos seguintes itens:
+            {% else %}
+            Não há ausentes com justificativas:
+        {% endif %}
+    <ol style="display: inline;">
+        {% for pessoa in attendees %}
+            {% if pessoa.status == 3 %}
+            <li style="display: inline;text-transform: capitalize;"> {{ pessoa.attendee.name }} </li>
+        {% endif %}
+        {% endfor %}.
+    </ol>
+        A reunião teve início com a aprovação da pauta e a inclusão dos seguintes itens:
         <ol style="display: inline;">
         {% for pauta in agenda%}
-        <li style="display: inline;"><span style="font-weight: bold;">{{pauta.agenda_protocol}}:</span> {{pauta.agenda_topic}}, interessado: {{pauta.agenda_interested}}, descrição: {{pauta.agenda_description}}</li>
+            <li style="display: inline;"><span style="font-weight: bold;">{{pauta.agenda_protocol}}:</span> {{pauta.agenda_topic}}, interessado: {{pauta.agenda_interested}}, descrição: {{pauta.agenda_description}} <span style="font-weight: bold">o parecer foi
+                {% if pauta.status == 1 %} Aprovado {% elif pauta.status == 2 %} Não Aprovado {% elif pauta.status == 3 %} Pedido de Vista {% else %} Retirado de pauta {% endif %}. </span></li>
         {%endfor%}
         </ol>
         {% if not meeting.meet_description %}
         <span style="display: inline; font-weight: bold;"> Observações da reunião: {{meeting.meet_description}} </span>
-
         {% endif %}
         Nada mais havendo a ser tratado, o presidente deu por encerrada a reunião e, o sistema lavrou a presente Ata, que vai assinada pelos presentes.
+    </div>
     </div>
 </div>
 

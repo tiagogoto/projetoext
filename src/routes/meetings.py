@@ -183,7 +183,7 @@ def teste(id):
     print(type(list_agenda))
     justified_absence = 0
     for attendee in lista:
-        print("estatus: ", attendee.status, "Nome:", attendee.attendee.name)
+        print("status: ", attendee.status, "Nome:", attendee.attendee.name)
         if attendee.status == 3:
             justified_absence += 1
     return render_template('meeting_minute.html', attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence)
