@@ -131,8 +131,6 @@ def gen_minute_save(id):
     attendance= request.form.getlist('presenca[]')
     ag_descri = request.form.getlist('ag_descrip[]')
     ag_id = request.form.getlist('agenda_id[]')
-    print(attendance_id)
-    print(attendance)
     aproved_status = request.form.getlist('delib[]')
     notes = request.form.getlist('delib[]')
     meeting_descrip = request.form.get('description')
@@ -145,6 +143,16 @@ def gen_minute_save(id):
         Reg_agenda.update(agid, descrip, status, note )
     
     Reg_meetings.update_description(id, meeting_descrip)
+
+    # save minute data
+    enddate = request.form.get("endtime")
+    enddate_conv = datetime.strptime(enddate, '%Y-%m-%dT%H:%M')
+    quorum = request.form.get("quorum")
+    recorderby = request.form.get("elabata")
+
+    # update database
+    num = Reg_meetings.get_meeting_number(id)
+    Reg_meet_minutes.insert(num, recorderby, id, enddate_conv, quorum )
 
     flash("Salvo com sucesso!!")
     return redirect(url_for('meetings.gen_minute', id=id))
@@ -186,7 +194,9 @@ def teste(id):
         print("status: ", attendee.status, "Nome:", attendee.attendee.name)
         if attendee.status == 3:
             justified_absence += 1
-    return render_template('meeting_minute.html', attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence)
+    minute = Reg_meet_minutes.get_minute(id)
+    
+    return render_template('meeting_minute.html', attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence, min =minute)
 
 @meetings_route.route('/<int:clientes_id>/edit', methods=['POST'])
 def edit_meeting(meeting_id):

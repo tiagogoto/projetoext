@@ -43,7 +43,9 @@
 * [ ] 
 
 
-anotações:
+anotações: 
+
+estatus da pauta
 
 "1" Aprovado
 "2" Não aprovado

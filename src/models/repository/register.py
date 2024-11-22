@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from ..entities.institution import Country, Institution, Course, Department
+from ..entities.institution import Country, Institution, Course, Department, Organization
 import uuid
 from ... import db, flask_bcrypt
 
@@ -101,4 +101,17 @@ class Reg_course():
         course_list = db.session.execute(db.select(Course).join(Department).order_by(Course.name)).scalars()
         return course_list
 
+
+class Reg_organizationI:
+    def insert(self, oname, oacronym, ologo):
+        org = Organization(name=oname, acronym=oacronym, logo=ologo)
+        db.session.add(org)
+        db.session.commit()
+    def update_logo(self,  ologo):
+        org = db.session.execute(db.select(Organization).filter_by(id=1)).scalar()
+        org.logo = ologo
+        db.coomit()
+
+
+        
     

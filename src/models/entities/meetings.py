@@ -59,10 +59,12 @@ class Meeting_minute(db.Model):
     __tablename__='meeting_minute'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     minute_number = db.Column(db.Integer )
-    
+    endtime = db.Column(db.DateTime, nullable = True)
+    quorum = db.Column(db.Integer, nullable = False)
     addannotation = db.Column(db.Text, nullable = True)
-    aproved_date = db.Column(db.DateTime, nullable = False)
-    recorded_by = db.Column(db.Text, nullable= False)
+    aproved_date = db.Column(db.DateTime, nullable = True)
+    recorded_by = db.Column(db.Text, nullable= True)
+
     # foreignKey
     meeting_id = db.Column(db.Integer, db.ForeignKey('meetings.id'), nullable=False)
     meeting = db.relationship("Meetings", back_populates="minutes")

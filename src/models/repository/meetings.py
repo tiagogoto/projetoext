@@ -31,6 +31,9 @@ class Reg_meetings():
         meeting = db.session.execute(db.select(Meetings).filter_by(id=meet_id)).scalar()
         meeting.meet_description = descrip
         db.session.commit()
+    def get_meeting_number(meeting_id):
+        meeting = db.session.execute(db.select(Meetings).filter_by(id=meeting_id)).scalar()
+        return meeting.meet_number
     
     
 class Reg_meeting_type():
@@ -92,13 +95,18 @@ class Reg_meet_minutes():
     def gets():
         meeting_miniutees_list = db.session.execute(db.select(Meeting_attendees).order_by(Meeting_minute.id)).scalars()
         return meeting_miniutees_list
+    
+    def get_minute(meeting_id):
+        minute = db.session.execute(db.select(Meeting_minute).filter_by(meeting_id = meeting_id)).scalar()
+        return minute
 
-    def insert(num, annot, rec, me_id, me_at):
+    def insert(num, rec, me_id, end, quo):
         minute = Meeting_minute(minute_number = num, 
-                                addannotation = annot,
                                 recorded_by= rec,
-                                meeting_id = me_id, 
-                                meeting_attendees_id = me_at)
+                                meeting_id = me_id,
+                                endtime = end,
+                                quorum = quo 
+                                )
         db.session.add(minute)
         db.session.commit()
 

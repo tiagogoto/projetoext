@@ -71,3 +71,13 @@ class Course(db.Model):
         self.name = data['name']
         self.depart_id = data['department']
         db.session.commit()
+
+class Organization(db.Model):
+    __tablename__ = 'organization'
+    id =db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False)
+    acronym = db.Column(db.Text, nullable=True)
+    logo = db.Column(db.Text, nullable=True )
+    
+    def __repr__(self):
+        return f"{self.name}"

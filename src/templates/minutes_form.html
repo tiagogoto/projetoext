@@ -54,6 +54,22 @@
             <label class="form-label"> Descrição da reunião</label>
             <input class="form-control" name="description" value="{{meeting.meet_description}}">
         </div>
+        <div class="container my-3"> 
+            <label class="form-label"> Responsável pela elaboração da ATA:</label>
+            <input type="text" name="elabata" class="form-control"> 
+        </div>
+        <div class="container my-3">
+            <label class="form-label "> A reunião teve quórum?</label>
+            <select class="form-select" name="quorum">
+                <option value="0"> Não </option>
+                <option value="1"> Sim</option>
+            </select>
+        </div>
+        <div class="container my-3">
+            <label class="form-label"> Horário do fim da reunião:</label>
+            <input type="datetime-local" class="form-control" name="endtime">
+
+        </div>
         <button class="btn btn-primary my-3" formtarget="main_form" type="submit"> Salvar </button>
         </form>
         <ul class="list-inline text-center">
