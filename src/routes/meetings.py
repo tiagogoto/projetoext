@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash, make_response
 from ..models.repository.meetings import Reg_meetings, Reg_meeting_type, Reg_agenda, Reg_attendees, Reg_meet_minutes, Reg_meeting_atten, Reg_numbering
 from ..models.repository.register import Reg_course
+from ..models.entities.meetings import Meetings
 from ..routes.home import home_route
 from .. import db, login_manager
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -29,6 +30,7 @@ Rotas meetings
 def list_meetings():
     meetings_date = Reg_meetings.gets()
     return render_template('list_meetings.html', dados= meetings_date)
+
 
 @meetings_route.route('/form')
 @login_required
@@ -98,6 +100,7 @@ def generate_notice(id):
         meeting = Reg_meetings.get_meeting(id)
         if not meeting:
             return redirect(url_for('meetings.erro_page'))
+
         list_at = Reg_meeting_atten.get_list(id)
         list_agenda = Reg_agenda.get_meet_agenda(id)
         rendered = render_template("meeting_notice.html", meeting=meeting , attendee_list = list_at, agenda=list_agenda)
@@ -157,21 +160,26 @@ def gen_minute_save(id):
     flash("Salvo com sucesso!!")
     return redirect(url_for('meetings.gen_minute', id=id))
 
-@meetings_route.route('/minute/pdf/<id>', methods=['POST'])
+@meetings_route.route('/minute/<id>/pdf', methods=['POST'])
 @login_required
 def gen_minute_pdf(id):
     if request.method == "POST":
         meeting = Reg_meetings.get_meeting(id)
         if not meeting:
             return redirect(url_for('meetings.erro_page'))
-        list_at = Reg_meeting_atten.get_list(id)
+        lista = Reg_meeting_atten.get_list(id)
+        print(type(lista))
+    
         list_agenda = Reg_agenda.get_meet_agenda(id)
+        print(type(list_agenda))
         justified_absence = 0
-        for atendee  in list_at:
-            if atendee.status == 3:
-                justified_absence +=1
+        for attendee in lista:
+            print("status: ", attendee.status, "Nome:", attendee.attendee.name)
+            if attendee.status == 3:
+                justified_absence += 1
+        minute = Reg_meet_minutes.get_minute(id)
         # generate pdf from a template
-        rendered = render_template("meeting_minute.html", meeting=meeting , lista_p = list_at, agenda=list_agenda, justified=justified_absence)
+        rendered = render_template("meeting_minute.html", attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence, min =minute)
         pdf = pdfkit.from_string(rendered, False)
         response = make_response(pdf)
         response.headers['content-Type'] = '/app/pdf'
@@ -179,8 +187,8 @@ def gen_minute_pdf(id):
         return response
     return redirect(url_for('meetings.consult_meeting', id=id))
 
-@meetings_route.route('/teste/<id>', methods=['GET'])
-def teste(id):
+@meetings_route.route('/minute/<id>/ht', methods=['POST'])
+def gen_minute_html(id):
     meeting = Reg_meetings.get_meeting(id)
     if not meeting:
         return redirect(url_for('meetings.erro_page'))
@@ -195,16 +203,21 @@ def teste(id):
         if attendee.status == 3:
             justified_absence += 1
     minute = Reg_meet_minutes.get_minute(id)
-    
-    return render_template('meeting_minute.html', attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence, min =minute)
+    html_file = render_template('meeting_minute.html', attendees=lista, meeting=meeting, agenda=list_agenda, justified=justified_absence, min =minute)
+    response = make_response(html_file)
+    response.headers['content-Type'] =  'app/html'
+    response.headers['content-Disposition'] = 'inline; filename=ata_'+id+'.html'
 
-@meetings_route.route('/<int:clientes_id>/edit', methods=['POST'])
+    return  response
+
+@meetings_route.route('/<id>/edit', methods=['POST'])
 def edit_meeting(meeting_id):
     
     pass
-@meetings_route.route('/<int:clientes_id>/delete', methods=['POST'])
-def delete_meeting(meeting_id):
-    pass
+@meetings_route.route('/<id>/delete', methods=['POST'])
+def delete_meeting(id):
+    Reg_meetings.delete(id)
+    return redirect(url_for('meetings.list_meetings'))
 
 
 @meetings_route.route('/erro', methods=['GET'])

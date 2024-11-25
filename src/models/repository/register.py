@@ -27,16 +27,17 @@ class Reg_country():
 
 
 class Reg_inst():
-    def insert_reg(inst_name,inst_acronym, inst_country ):
-        institution =  Institution(name = inst_name, acronym = inst_acronym, country_id=inst_country)
+    def insert_reg(inst_name,inst_acronym, inst_country, logo ):
+        institution =  Institution(name = inst_name, acronym = inst_acronym, country_id=inst_country, logo=logo)
         db.session.add(institution)
         db.session.commit()
-    def update_reg(id, name, acronym, country):
+    def update(id, name, acronym, country, logo):
         institution = db.one_or_404(db.select(Institution).filter_by(id = id)) 
         # db.session.execute()
         institution.name = name
         institution.acronym = acronym
-        institution.country = country
+        institution.country_id = country
+        institution.logo = logo
         db.session.commit()
 
     def delete_reg(id):
@@ -51,6 +52,9 @@ class Reg_inst():
     def get_institutions_join():
         Institution_list = db.session.execute(db.select(Institution).join(Country, Country.id == Institution.country).order_by(Institution.id)).scalars()
         return Institution_list
+    def get_one_inst(inst_id):
+        institution = db.session.execute(db.select(Institution).filter_by(id=inst_id)).scalar()
+        return institution
 
 class Reg_depart():
     def insert_reg(name, acronym, inst):

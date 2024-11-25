@@ -26,12 +26,13 @@ class Institution(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     acronym = db.Column(db.Text, nullable=False)
+    logo =db.Column(db.Text, nullable=True)
     country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False )
     country =  db.relationship("Country", back_populates="institution")
     department = db.relationship("Department", back_populates="institution", lazy='dynamic')
 
     def __repr__(self):
-        return f'<Institution {self.name}>'
+        return f'{self.name}'
     
     def register(self, data):
         self.name = data['name']
@@ -47,7 +48,7 @@ class Department(db.Model):
     institution = db.relationship("Institution", back_populates="department")
     course = db.relationship("Course", back_populates="department", lazy='dynamic')
     def __repr__(self):
-        return f'< Unidade: {self.name}>'
+        return f'{self.name}'
     
     def register(self, data):
         self.name =  data['name']

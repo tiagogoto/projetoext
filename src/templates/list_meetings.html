@@ -18,6 +18,7 @@
     </thead>
     <tbody>
         {% for meeting in dados %}
+        
       <tr>
         <th class="text-center"> {{ meeting.id }}</th>
         <th class="text-center">{{meeting.course}}</th>
@@ -28,10 +29,20 @@
           <form id="gnotice">
             <button formtarget="gnotice" type="submit" class="btn btn-primary m-2" formaction="{{url_for('meetings.generate_notice', id=meeting.id)}}" formmethod="post"> Gerar Convocação </button>
           </form>
-            <button type="button" class="btn btn-primary m-2"> Gerar ATA</button>
-            <button type="button" class="btn btn-danger m-2"> Deletar Reunião</button>
+        
+           <a class="btn btn-primary m-2" href="{{url_for('meetings.gen_minute', id=meeting.id)}}"> Preencher ATA<a>
+        <form id="atapdf">
+          <button type="submit" class="btn btn-primary m-2" formtarget="atapdf" formmethod="post" formaction="{{url_for('meetings.gen_minute_pdf', id=meeting.id)}}">Gerar ATA em pdf</button>
+        </form>
+          <form id="atahtml" action="{{url_for('meetings.gen_minute_html', id=meeting.id)}}" method="post">
+            <input type="submit" class="btn btn-primary m-2" formtarget="atahtml"  value="Gerar ATA em HTML">
+          </form>
+          <form>
+            <button type="submit" formmethod="post" formaction="{{url_for('meetings.delete_meeting', id=meeting.id)}}" class="btn btn-danger m-2"> Deletar Reunião</button>
+          </form>
         </td>
       </tr>
+      
       {% endfor %}
     </tbody>
   </table>

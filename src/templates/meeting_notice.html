@@ -15,8 +15,9 @@
 <body>
 <header>
     |<div class="container text-center">
-        <img src="https://www.gov.br/planalto/pt-br/conheca-a-presidencia/acervo/simbolos-nacionais/brasao-da-republica/brasaooficialcolorido.png/@@images/image" alt="Brasão da república" style="width: 280px; height: 160px;">
-        <p class="fs-4 fw-bold text-uppercase"> Universidade Federal de Rondonópolis  - UFR</p>
+        <img src="{{meeting.course.department.institution.logo}}" alt="Brasão da república" style="width: 160px; height: 160px;">
+        <p class="fs-4 fw-bold text-uppercase"> {{ meeting.course.department.institution }}</p>
+        <p class="fs-4 fw-bold text-uppercase"> {{ meeting.course.department }}</p>
         <p class="fs-4 fw-bold text-uppercase"> {{meeting.course}}</p>
     </div>
 </header>

@@ -16,9 +16,11 @@ class Users(db.Model):
     access = db.Column(db.Integer, db.ForeignKey("permissions.id"))
     authenticated = db.Column(db.Boolean, default=False)
     isactive = db.Column(db.Boolean, default=True)
+    # relationship
+    permission = db.relationship("Permission", back_populates="user")
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'{self.username}'
     
     def set_password(self, value):
           self._password = flask_bcrypt.generate_password_hash(value).decode('utf-8')
@@ -62,11 +64,14 @@ class Permission(db.Model):
     __tablename__="permissions"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.Text, nullable=False)
-
+    user = db.relationship("Users", back_populates="permission", lazy='dynamic')
     def __repr__(self):
-        return f'<ID: {self.id} - Permission {self.description} >'
-    
-
+        return f'{self.description}'
+"""
+class Permission_group(db.Model):
+    __tablename__= "permiossion_group"
+    id = id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+"""
 """
 class Meeting_type(Base):
     __tablename__="meeting_type"

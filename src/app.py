@@ -7,6 +7,9 @@ from . import db, create_app # from __init__ file
 
 app = create_app(os.getenv("CONFIG_MODE"))
 
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
 # inicializa

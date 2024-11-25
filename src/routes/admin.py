@@ -9,8 +9,8 @@ def lista_configadmin():
    
     user = Users.query.filter_by(userid=current_user.userid).first()
     print(f"usuário: {user.username}")
-    if user.access != 0:
-        return "Erro Você não tem permissão esta aqui!"
+    if user.access != 1:
+        return render_template("no_permission.html")
     titulo = "Administração do Sistema"
     return render_template('admin_panel.html', titulo=titulo)
 

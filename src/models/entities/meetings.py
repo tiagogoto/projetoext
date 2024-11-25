@@ -11,6 +11,7 @@ class Meetings(db.Model):
     meet_regdate = db.Column(db.DateTime, default=datetime.now)
     meet_date = db.Column(db.DateTime, nullable = False)
     meet_location = db.Column(db.Text, nullable = False)
+    is_active = db.Column(db.Boolean, nullable = True)
     ##
     # relationshipMeetings_attendees
     #  meeting type

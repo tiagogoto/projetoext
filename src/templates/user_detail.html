@@ -2,10 +2,17 @@
 {% block content %}
 
 
+<div class="container text-center my-5">
+    <h3> Usuário: {{ dados.username }}</h3>
+    <hr>
+    <div class="container text-left my-2">
+        <p class="my-2"><span class="fw-medium">Id: </span> {{ dados.id }} </p>
+        <p class="my-2"><span class="fw-medium">Nome: </span> {{ dados.username }} </p>
+        <p class="my-2"><span class="fw-medium">E-mail: </span> {{ dados.useremail }} </p>
+        <p class="my-2"><span class="fw-medium">Grupo de permissão: </span> {{ dados.access }} </p>
+    </div>
 
-<p> {{ dados.id }} </p> <br>
-<p>{{ dados.access }} </p> <br>
-<p>{{ dados.username }} </p> <br>
-<p>{{ dados.userid }} </p> <br>
-<p>{{ dados.useremail }} </p> <br>
+</div>
+
+
 {% endblock %}

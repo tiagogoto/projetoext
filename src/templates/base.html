@@ -32,29 +32,30 @@
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Painel Administrativo</a>
                         <ul class="dropdown-menu">
-                          <li ><a class="dropdown-item" href="{{url_for('admin.lista_configadmin')}}"> Painel administrativo</a> </li>
-                          <li ><a class="dropdown-item" href="#">Teste </a></li>
+                          <li ><a class="dropdown-item" href="{{url_for('admin.lista_configadmin')}}"> Configurações</a> </li>
                         </ul>
                       </li>
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Cadastros </a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Reuniões </a>
                         <ul class="dropdown-menu">
-                          <li ><a class="dropdown-item" href="{{url_for('admin.lista_configadmin')}}"> Cadastro de ATAS</a> </li>
-                          <li ><a class="dropdown-item" href="#">Teste </a></li>
+                          <li ><a class="dropdown-item" href="{{url_for('meetings.show_meeting_form')}}">Cadastrar Reunião</a> </li>
+                            <li><a class="dropdown-item" href="{{ url_for('meetings.list_meetings') }}">Listar Reuniões</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('meetings.insert_meeting_type') }}">Listar tipos de Reunões</a></li>
+                          <li ><a class="dropdown-item" href="{{ url_for('meetings.gets_attendees') }}">Participantes </a></li>
+
                         </ul>
                       </li>
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Consultas</a>
                         <ul class="dropdown-menu">
                           <li ><a class="dropdown-item" href="{{url_for('users.list_users')}}">usuários</a> </li>
-                          <li ><a  class="dropdown-item" href="{{url_for('meetings.gets_attendees') }}"> participantes </a>
-                          <li ><a class="dropdown-item" href="#">Reuniões</a></li>
+
                         </ul>
                       </li>
                     </ul>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Usuário</a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" ><i class="bi bi-person-circle" style="font-size: 1.5rem; color:antiquewhite" > </i>Usuário</a>
                         <ul class="dropdown-menu">
                           <li ><a class="dropdown-item" href="{{url_for('users.user_detail')}}">Informações</a> </li>
                           <li ><a class="dropdown-item" href="{{url_for('login.logout')}}">Logout</a></li>
@@ -87,7 +88,7 @@
       <!-- Section: Text -->
       <section class="mb-4">
         <p>
-         Sistema para gerenciamento de Reuniões ATAs e informações.
+         Sistema para gerenciamento de Reuniões, ATAs e informações acadêmicas.
         </p>
       </section>
       <!-- Section: Text -->

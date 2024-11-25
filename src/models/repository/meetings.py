@@ -5,8 +5,13 @@ from ..entities.meetings import Meeting_attendees, Meeting_type, Meetings, Meeti
 
 class Reg_meetings():
     def gets():
-        meetings_list = db.session.execute(db.select(Meetings).order_by(Meetings.id)).scalars()
+        meetings_list = db.session.execute(db.select(Meetings).order_by(Meetings.id).where(Meetings.is_active == True)).scalars()
         return meetings_list
+
+    def delete(meet_id):
+        meeting = db.session.execute(db.selec(Meetings).filter_by(id = meet_id)).scalar()
+        meeting.is_active = False
+        db.session.commit()
     
     def get_meeting(id):
         meeting = db.session.execute(db.select(Meetings).filter_by(id = id)).scalar()
@@ -46,8 +51,8 @@ class Reg_meeting_type():
         db.session.add(type)
         db.session.commit()
 
-    def delete(id):
-        type_s = db.one_or_404(db.select(Meeting_type).filter_by(id=id))
+    def delete(meetid):
+        type_s = db.one_or_404(db.select(Meeting_type).filter_by(id=meetid))
         db.session.delete(type_s)
         db.session.commit()
         

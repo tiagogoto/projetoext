@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mt-5 mb-5">
+    <h2 class="text-center text-danger">Erro, Você não tem permissão para acessar essa página! </h2>
+    <div class="container-md text-center max-width 100">
+        <img class="img-fluid" style="max-width: 70%; height:auto;" alt="ilustrativo erro de permissão" src="{{url_for('static', filename='error09.png')}}">
+
+    </div>    
+
+</div>
+{% endblock %}

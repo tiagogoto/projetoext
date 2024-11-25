@@ -6,6 +6,8 @@ lib64/
 pyvenv.cfg
 lib64
 tarefas.md
-
+var/src-instance/dev.db
+var/src-instance/dev.db-shm
+var/src-instance/dev.db-shm
 
 
