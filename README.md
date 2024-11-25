@@ -41,3 +41,7 @@ USER_PASSWORD="123456789"
 * Painel administrativo para configuração básica
 
 ![Captura de Tela](Doc/Figures/Painel_adm.png)
+
+* Painel de cadastro de usuário 
+
+![Captura de Tela](Doc/Figures/user_form.png)

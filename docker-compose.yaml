@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: app_flask
+    ports:
+      -"5001:5001"
+    volumes:
+      - .:/app_flask
+    environment:
+      - TEST_DATABASE_URL=sqlite:///test.db
+  
+  volumes:
