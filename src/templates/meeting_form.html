@@ -62,7 +62,7 @@
                 <label class="form-label mb-3">' + 'Participante ' +count +":" + '</label>\
                 <select class="form-select" name="field[]"> \
                     {% for attendee in att %}\
-                    <option value={attendee.id}> {{attendee.name}} / {{attendee.course}} </option>\
+                    <option value={{attendee.id}}> {{attendee.name}} / {{attendee.course}} </option>\
                 {% endfor %}\
                     </select> \
             </div>'

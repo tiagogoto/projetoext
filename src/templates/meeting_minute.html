@@ -28,7 +28,7 @@
         </div>
     <div class="container-fluid text-center mt-2">
     <div style="text-align: justify; font-size: x-large;hyphens: auto;word-wrap: break-word;">
-        No dia {{meeting.meet_date.day}} de {{meeting.meet_date.strftime('%B')}} de {{meeting.meet_date.year}}, às {{meeting.meet_date.hour}}h{{meeting.meet_date.minute}} ocorreu a {{meeting.meet_number}} reunião no
+        No dia {{meeting.meet_date.day}} de {{meeting.meet_date.strftime('%B')}} de {{meeting.meet_date.year}}, às {{meeting.meet_date.hour}}h{{meeting.meet_date.minute}} ocorreu a {{meeting.meet_number}} reunião no(a)
         {{ meeting.meet_location }} com a presença de
     <ol style="display: inline; list-style: none; padding: 0;">
         {% for a in attendees %}
@@ -49,16 +49,16 @@
         {% endfor %}.
     </ol>
         A reunião teve início com a aprovação da pauta e a inclusão dos seguintes itens:
-        <ol style="display: inline;padding: 0;">
+        <ul style="display: inline;padding: 0;">
         {% for pauta in agenda%}
-            <li style="display: inline;"><span style="font-weight: bold;">{{ loop.index0 + 1 }} - {{pauta.agenda_protocol}}:</span> {{pauta.agenda_topic}}, interessado: {{pauta.agenda_interested}}, descrição: {{pauta.agenda_description}} <span style="font-weight: bold">o parecer foi
-                {% if pauta.status == 1 %} Aprovado {% elif pauta.status == 2 %} Não Aprovado {% elif pauta.status == 3 %} Pedido de Vista {% else %} Retirado de pauta{% endif %}.</span> {{ pauta.notes }}</li>
+            <li style="display: inline;"><span style="font-weight: bold;"> {{ loop.index0 + 1 }} - {{pauta.agenda_protocol}}:</span> {{pauta.agenda_topic}}, interessado: {{pauta.agenda_interested}} <span style="font-weight: bold"> o parecer foi
+                {% if pauta.status == '1' %} Aprovado {% elif pauta.status == '2' %} Não Aprovado {% elif pauta.status == '3' %} Pedido de Vista {% else %} Retirado de pauta {% endif %}.</span> {{ pauta.notes }}</li>
         {%endfor%}
-        </ol>
+            </ul>
         {% if not meeting.meet_description %}
         <span style="display: inline; font-weight: bold;"> Observações da reunião: {{meeting.meet_description}} </span>
         {% endif %}
-        Nada mais havendo a ser tratado, o presidente deu por encerrada a reunião às {{min.endtime.hour}}h{{min.endtime.minute}} sendo lavrada esta ata por mim, eu {{ min.recorded_by }} lavrei a presente Ata, que, após lida e aprovada, segue para ser assinada pelos que estiveram presentes.
+        Nada mais havendo a ser tratado, o presidente deu por encerrada a reunião às {{min.endtime.hour}}h{{min.endtime.minute}}m sendo lavrada esta ata por mim, eu {{ min.recorded_by }} lavrei a presente Ata, que, após lida e aprovada, segue para ser assinada pelos que estiveram presentes.
     </div>
     <div class="container mt-5">
         {% for att in attendees%}

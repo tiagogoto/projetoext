@@ -79,7 +79,7 @@ def insert_meetings():
     
     # insert attendees
     for attendee in list_of_atteendees:
-        Reg_meeting_atten.insert(number, attendee)
+        Reg_meeting_atten.insert(meet_id, attendee)
     
     return redirect(url_for('meetings.list_meetings'))
 
@@ -135,7 +135,7 @@ def gen_minute_save(id):
     ag_descri = request.form.getlist('ag_descrip[]')
     ag_id = request.form.getlist('agenda_id[]')
     aproved_status = request.form.getlist('delib[]')
-    notes = request.form.getlist('delib[]')
+    notes = request.form.getlist('notes[]')
     meeting_descrip = request.form.get('description')
     # update attendance status
     for att_id, attendance_status in zip(attendance_id, attendance):
