@@ -1,5 +1,5 @@
-from  ... import db, flask_bcrypt
-
+from  ... import flask_bcrypt
+from .. import db
 #from flask_validator import ValidateEmail, ValidateString, ValidateCountry
 from sqlalchemy.orm import validates
 

@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from ..entities.institution import Country, Institution, Course, Department, Organization
 import uuid
-from ... import db, flask_bcrypt
+from .. import db
 
 class Reg_country():
     def insert_reg(cname,cacronym ):

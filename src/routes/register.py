@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from ..models.entities.institution import Country, Course, Department, Institution
 from ..models.repository.register import Reg_country, Reg_inst, Reg_course, Reg_depart
-from .. import db, login_manager, app
+from .. import login_manager, app
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import os

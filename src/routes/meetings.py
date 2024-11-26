@@ -3,7 +3,8 @@ from ..models.repository.meetings import Reg_meetings, Reg_meeting_type, Reg_age
 from ..models.repository.register import Reg_course
 from ..models.entities.meetings import Meetings
 from ..routes.home import home_route
-from .. import db, login_manager
+from .. import login_manager
+from ..models import db
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from datetime import datetime
 import pdfkit

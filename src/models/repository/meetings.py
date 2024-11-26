@@ -1,4 +1,4 @@
-from ... import db
+from .. import db
 from ..entities.meetings import Meeting_attendees, Meeting_type, Meetings, Meeting_minute, Attendees, Meeting_agenda, Numbering
  
 

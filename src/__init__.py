@@ -10,8 +10,8 @@ from flask_login import LoginManager
 
 #from flask_tinymce import TinyMCE
 
-db = SQLAlchemy()
-migrate = Migrate()
+#db = SQLAlchemy()
+#migrate = Migrate()
 flask_bcrypt = Bcrypt()
 login_manager = LoginManager()
 #tinymce = TinyMCE()
@@ -22,8 +22,10 @@ def create_app(config_mode):
     app.config.from_object(config[config_mode])
     
     # initialized the database
+    from .models import db, migrate
     db.init_app(app)
     migrate.init_app(app, db, render_as_batch=True)
+    
     
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)

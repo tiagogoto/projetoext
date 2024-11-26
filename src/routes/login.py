@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from ..models.entities.users import Users
-from .. import db, login_manager
+from .. import login_manager
+from ..models import db
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 login_route = Blueprint('login', __name__)
 
@@ -16,10 +17,13 @@ def login_authentication():
         password = request.form.get('userpassword')
         remember = True if request.form.get('rememberme') else False
         #print(f"Inserido, usuário: {user_name} e senha: {password}!")
-        user = Users.query.filter_by(userid=user_name).first_or_404( )#Users.query.filter_by(username=user_name).first()
-        
+        #user = Users.query.filter_by(userid=user_name).first_or_404( )#Users.query.filter_by(username=user_name).first()
+        user = db.session.execute(db.select(Users).filter_by(userid=user_name)).scalar()
+        if not user:
+            flash('Erro ao logar, verifique o usuário ou senha está correto!')
+            return redirect(url_for('login.login_form'))
         if not user.userid or not user.check_password(password) :#and bcrypt.check_password_hash(user.userpassword, password):            
-            flash('Please check your login details and try again.')
+            flash('Erro ao logar, verifique o usuário ou senha está correto!')
             return redirect(url_for('login.login_form'))
                
     else:

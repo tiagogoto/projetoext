@@ -1,4 +1,4 @@
-from  ... import db, flask_bcrypt
+from  .. import db
 from sqlalchemy.orm import validates
 
 

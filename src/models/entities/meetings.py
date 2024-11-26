@@ -1,4 +1,4 @@
-from ... import db
+from .. import db
 from sqlalchemy.orm import validates
  
 from datetime import datetime

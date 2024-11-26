@@ -1,15 +1,16 @@
 from flask import request, jsonify
 from ..entities.users import Users, Permission
-import uuid
-from ... import db, flask_bcrypt
 
+from ... import flask_bcrypt
+from .. import db
 
 class Users_repository():
     def get_list():
         user_list = db.session.execute(db.select(Users).order_by(Users.id)).scalars()
         return user_list
-    
-    def insert_user(self, dados):
+    def get_admin():
+        admin = db.session(db.select(Users).where(Users.userid == "admin")).first()
+    def insert_user( dados):
         user = Users(username = dados['username'],
                      _password = flask_bcrypt.generate_password_hash(dados['userpassword']).decode('utf-8'),
                      userid = dados['userid'],

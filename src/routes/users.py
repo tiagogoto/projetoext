@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from ..models.repository.users_repository import Users_repository, Reg_permission
 from ..models.entities.users import Users
-from .. import db
+from ..models import db
 from flask_login import login_required, current_user
 
 users_route = Blueprint('users', __name__)
