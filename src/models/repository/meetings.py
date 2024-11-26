@@ -23,7 +23,8 @@ class Reg_meetings():
                            meet_date = data["date"],
                            meet_location = data["location"],
                            meet_type_id = data["type"],
-                           course_id = data["course"])        
+                           course_id = data["course"],
+                           is_active = True )        
         db.session.add(meeting)
         db.session.commit()
         return meeting.id
