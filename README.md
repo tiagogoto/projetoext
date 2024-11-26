@@ -19,7 +19,17 @@ um sistema para gerenciamento de atas das reuniões de forma que seja fácil a b
     * deve possuir autenticação e controle de permissão;
     * deve possuir forma de realizar backup
 
-A aplicação ainda está no estágio inicial de desenvolvimento.
+A aplicação ainda está no estágio inicial de desenvolvimento. As funcionalidades desenvolvida e funcional;
+
+* Cadastro de reunião;
+* Gerar arquivo PDF com a convocação da reunião;
+* registro de ATA da reunião;
+* Gerar arquivo pdf da ata da reunião;
+* Gerar arquivo html da ata de reunião.
+
+Exemplo de convocação e ata gerada em pdf pela aplicação estão disponível em [Convocação em pdf](Doc/2.pdf) e [ATA](Doc/2-1.pdf), respectivamente.
+
+
 
 ## Aplicação em ambiente de teste:
 
@@ -35,7 +45,7 @@ Em seguida entre na pasta src, e rode:
 flask run --debug
 
 ```
-
+Para a criação do usuário administrador crie o arquivo .env.admin contendo dados do administrador. E acesse no navegador o endpoint /admin/create_admin, que será criado o usuário administrador com usuário: admin e a senha inserido no arquivo.
 
 ## Configurações 
 
